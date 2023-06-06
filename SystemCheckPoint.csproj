@@ -194,8 +194,6 @@
   <ItemGroup>
     <Resource Include="Images\close.png" />
     <Resource Include="Images\minsize.png" />
-    <Resource Include="Images\to expand.png" />
-    <Resource Include="Images\unwrap.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\logo.ico" />

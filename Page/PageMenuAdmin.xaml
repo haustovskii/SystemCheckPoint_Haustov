@@ -17,6 +17,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel
+            Name="StpButton"
             Grid.Row="0"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
