@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище CheckPointDbModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище CheckPointDbModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AccountingMaterialValue">
           <Key>
             <PropertyRef Name="ID" />
@@ -14,15 +14,18 @@
           <Property Name="Weight" Type="int" />
           <Property Name="Count" Type="int" />
           <Property Name="Price" Type="int" />
+          <Property Name="IDPass" Type="int" />
         </EntityType>
         <EntityType Name="AutoTransport">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Number" Type="nvarchar(max)" />
-          <Property Name="Color" Type="nvarchar(max)" />
-          <Property Name="Mark" Type="nvarchar(max)" />
+          <Property Name="Mark" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StateNumber" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SeriesNumber" Type="nvarchar(max)" />
+          <Property Name="Color" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IDPass" Type="int" />
         </EntityType>
         <EntityType Name="Departament">
           <Key>
@@ -45,7 +48,6 @@
           <Property Name="SeriesPassport" Type="int" Nullable="false" />
           <Property Name="NumberPassport" Type="int" Nullable="false" />
           <Property Name="IDPost" Type="int" Nullable="false" />
-          <Property Name="IDAutoTransport" Type="int" />
           <Property Name="IDPass" Type="int" Nullable="false" />
           <Property Name="IDGender" Type="int" Nullable="false" />
         </EntityType>
@@ -60,9 +62,7 @@
           <Property Name="Birthday" Type="date" />
           <Property Name="SeriesPassport" Type="int" />
           <Property Name="NumberPassport" Type="int" />
-          <Property Name="IDAutoTransport" Type="int" />
           <Property Name="IDPass" Type="int" />
-          <Property Name="IDAccountingMaterialValue" Type="int" />
           <Property Name="IDGender" Type="int" />
         </EntityType>
         <EntityType Name="Gender">
@@ -87,7 +87,6 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Number" Type="int" />
           <Property Name="IDTypePass" Type="int" />
           <Property Name="DateOfFormation" Type="datetime" />
         </EntityType>
@@ -116,17 +115,27 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <Association Name="FK_Employee_AutoTransport">
-          <End Role="AutoTransport" Type="Self.AutoTransport" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+        <Association Name="FK_AccountingMaterialValue_Pass">
+          <End Role="Pass" Type="Self.Pass" Multiplicity="0..1" />
+          <End Role="AccountingMaterialValue" Type="Self.AccountingMaterialValue" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AutoTransport">
+            <Principal Role="Pass">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="IDAutoTransport" />
+            <Dependent Role="AccountingMaterialValue">
+              <PropertyRef Name="IDPass" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AutoTransport_Pass">
+          <End Role="Pass" Type="Self.Pass" Multiplicity="0..1" />
+          <End Role="AutoTransport" Type="Self.AutoTransport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pass">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AutoTransport">
+              <PropertyRef Name="IDPass" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -169,34 +178,6 @@
             </Principal>
             <Dependent Role="Employee">
               <PropertyRef Name="IDPost" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ExternalPerson_AccountingMaterialValue">
-          <End Role="AccountingMaterialValue" Type="Self.AccountingMaterialValue" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="ExternalPerson" Type="Self.ExternalPerson" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AccountingMaterialValue">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ExternalPerson">
-              <PropertyRef Name="IDAccountingMaterialValue" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ExternalPerson_AutoTransport1">
-          <End Role="AutoTransport" Type="Self.AutoTransport" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="ExternalPerson" Type="Self.ExternalPerson" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AutoTransport">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ExternalPerson">
-              <PropertyRef Name="IDAutoTransport" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -297,9 +278,13 @@
           <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypePass" EntityType="Self.TypePass" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Employee_AutoTransport" Association="Self.FK_Employee_AutoTransport">
+          <AssociationSet Name="FK_AccountingMaterialValue_Pass" Association="Self.FK_AccountingMaterialValue_Pass">
+            <End Role="Pass" EntitySet="Pass" />
+            <End Role="AccountingMaterialValue" EntitySet="AccountingMaterialValue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AutoTransport_Pass" Association="Self.FK_AutoTransport_Pass">
+            <End Role="Pass" EntitySet="Pass" />
             <End Role="AutoTransport" EntitySet="AutoTransport" />
-            <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
           <AssociationSet Name="FK_Employee_Gender" Association="Self.FK_Employee_Gender">
             <End Role="Gender" EntitySet="Gender" />
@@ -312,14 +297,6 @@
           <AssociationSet Name="FK_Employee_Post" Association="Self.FK_Employee_Post">
             <End Role="Post" EntitySet="Post" />
             <End Role="Employee" EntitySet="Employee" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ExternalPerson_AccountingMaterialValue" Association="Self.FK_ExternalPerson_AccountingMaterialValue">
-            <End Role="AccountingMaterialValue" EntitySet="AccountingMaterialValue" />
-            <End Role="ExternalPerson" EntitySet="ExternalPerson" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ExternalPerson_AutoTransport1" Association="Self.FK_ExternalPerson_AutoTransport1">
-            <End Role="AutoTransport" EntitySet="AutoTransport" />
-            <End Role="ExternalPerson" EntitySet="ExternalPerson" />
           </AssociationSet>
           <AssociationSet Name="FK_ExternalPerson_Gender" Association="Self.FK_ExternalPerson_Gender">
             <End Role="Gender" EntitySet="Gender" />
@@ -338,332 +315,11 @@
             <End Role="Post" EntitySet="Post" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CheckPointDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="AccountingMaterialValue">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Weight" Type="Int32" />
-          <Property Name="Count" Type="Int32" />
-          <Property Name="Price" Type="Int32" />
-          <NavigationProperty Name="ExternalPerson" Relationship="Self.FK_ExternalPerson_AccountingMaterialValue" FromRole="AccountingMaterialValue" ToRole="ExternalPerson" />
-        </EntityType>
-        <EntityType Name="AutoTransport">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Number" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Color" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Mark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_AutoTransport" FromRole="AutoTransport" ToRole="Employee" />
-          <NavigationProperty Name="ExternalPerson" Relationship="Self.FK_ExternalPerson_AutoTransport1" FromRole="AutoTransport" ToRole="ExternalPerson" />
-        </EntityType>
-        <EntityType Name="Departament">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Post" Relationship="Self.FK_Post_Departament" FromRole="Departament" ToRole="Post" />
-        </EntityType>
-        <EntityType Name="Employee">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Patronumic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Login" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Birthday" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="SeriesPassport" Type="Int32" Nullable="false" />
-          <Property Name="NumberPassport" Type="Int32" Nullable="false" />
-          <Property Name="IDPost" Type="Int32" Nullable="false" />
-          <Property Name="IDAutoTransport" Type="Int32" />
-          <Property Name="IDPass" Type="Int32" Nullable="false" />
-          <Property Name="IDGender" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="AutoTransport" Relationship="Self.FK_Employee_AutoTransport" FromRole="Employee" ToRole="AutoTransport" />
-          <NavigationProperty Name="Gender" Relationship="Self.FK_Employee_Gender" FromRole="Employee" ToRole="Gender" />
-          <NavigationProperty Name="Pass" Relationship="Self.FK_Employee_Pass" FromRole="Employee" ToRole="Pass" />
-          <NavigationProperty Name="Post" Relationship="Self.FK_Employee_Post" FromRole="Employee" ToRole="Post" />
-        </EntityType>
-        <EntityType Name="ExternalPerson">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Patronumic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Birthday" Type="DateTime" Precision="0" />
-          <Property Name="SeriesPassport" Type="Int32" />
-          <Property Name="NumberPassport" Type="Int32" />
-          <Property Name="IDAutoTransport" Type="Int32" />
-          <Property Name="IDPass" Type="Int32" />
-          <Property Name="IDAccountingMaterialValue" Type="Int32" />
-          <Property Name="IDGender" Type="Int32" />
-          <NavigationProperty Name="AccountingMaterialValue" Relationship="Self.FK_ExternalPerson_AccountingMaterialValue" FromRole="ExternalPerson" ToRole="AccountingMaterialValue" />
-          <NavigationProperty Name="AutoTransport" Relationship="Self.FK_ExternalPerson_AutoTransport1" FromRole="ExternalPerson" ToRole="AutoTransport" />
-          <NavigationProperty Name="Gender" Relationship="Self.FK_ExternalPerson_Gender" FromRole="ExternalPerson" ToRole="Gender" />
-          <NavigationProperty Name="Pass" Relationship="Self.FK_ExternalPerson_Pass" FromRole="ExternalPerson" ToRole="Pass" />
-        </EntityType>
-        <EntityType Name="Gender">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Gender" FromRole="Gender" ToRole="Employee" />
-          <NavigationProperty Name="ExternalPerson" Relationship="Self.FK_ExternalPerson_Gender" FromRole="Gender" ToRole="ExternalPerson" />
-        </EntityType>
-        <EntityType Name="InfoArrivalDeparture">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="IDEmployee" Type="Int32" />
-          <Property Name="IDExternalPerson" Type="Int32" />
-          <Property Name="ArrivalTime" Type="DateTime" Precision="3" />
-          <Property Name="DepartureTime" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="Pass">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Number" Type="Int32" />
-          <Property Name="IDTypePass" Type="Int32" />
-          <Property Name="DateOfFormation" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Pass" FromRole="Pass" ToRole="Employee" />
-          <NavigationProperty Name="ExternalPerson" Relationship="Self.FK_ExternalPerson_Pass" FromRole="Pass" ToRole="ExternalPerson" />
-          <NavigationProperty Name="TypePass" Relationship="Self.FK_Pass_TypePass" FromRole="Pass" ToRole="TypePass" />
-        </EntityType>
-        <EntityType Name="Post">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IDDepartament" Type="Int32" />
-          <NavigationProperty Name="Departament" Relationship="Self.FK_Post_Departament" FromRole="Post" ToRole="Departament" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Post" FromRole="Post" ToRole="Employee" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="TypePass">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Pass" Relationship="Self.FK_Pass_TypePass" FromRole="TypePass" ToRole="Pass" />
-        </EntityType>
-        <Association Name="FK_ExternalPerson_AccountingMaterialValue">
-          <End Role="AccountingMaterialValue" Type="Self.AccountingMaterialValue" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="ExternalPerson" Type="Self.ExternalPerson" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AccountingMaterialValue">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ExternalPerson">
-              <PropertyRef Name="IDAccountingMaterialValue" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Employee_AutoTransport">
-          <End Role="AutoTransport" Type="Self.AutoTransport" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AutoTransport">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="IDAutoTransport" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ExternalPerson_AutoTransport1">
-          <End Role="AutoTransport" Type="Self.AutoTransport" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="ExternalPerson" Type="Self.ExternalPerson" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AutoTransport">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ExternalPerson">
-              <PropertyRef Name="IDAutoTransport" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Post_Departament">
-          <End Role="Departament" Type="Self.Departament" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Post" Type="Self.Post" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Departament">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Post">
-              <PropertyRef Name="IDDepartament" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Employee_Gender">
-          <End Role="Gender" Type="Self.Gender" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gender">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="IDGender" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Employee_Pass">
-          <End Role="Pass" Type="Self.Pass" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Pass">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="IDPass" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Employee_Post">
-          <End Role="Post" Type="Self.Post" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Post">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="IDPost" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ExternalPerson_Gender">
-          <End Role="Gender" Type="Self.Gender" Multiplicity="0..1" />
-          <End Role="ExternalPerson" Type="Self.ExternalPerson" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gender">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ExternalPerson">
-              <PropertyRef Name="IDGender" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ExternalPerson_Pass">
-          <End Role="Pass" Type="Self.Pass" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="ExternalPerson" Type="Self.ExternalPerson" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Pass">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ExternalPerson">
-              <PropertyRef Name="IDPass" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Pass_TypePass">
-          <End Role="TypePass" Type="Self.TypePass" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Pass" Type="Self.Pass" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TypePass">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Pass">
-              <PropertyRef Name="IDTypePass" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="CheckPointDbEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AccountingMaterialValue" EntityType="Self.AccountingMaterialValue" />
-          <EntitySet Name="AutoTransport" EntityType="Self.AutoTransport" />
-          <EntitySet Name="Departament" EntityType="Self.Departament" />
-          <EntitySet Name="Employee" EntityType="Self.Employee" />
-          <EntitySet Name="ExternalPerson" EntityType="Self.ExternalPerson" />
-          <EntitySet Name="Gender" EntityType="Self.Gender" />
-          <EntitySet Name="InfoArrivalDeparture" EntityType="Self.InfoArrivalDeparture" />
-          <EntitySet Name="Pass" EntityType="Self.Pass" />
-          <EntitySet Name="Post" EntityType="Self.Post" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
-          <EntitySet Name="TypePass" EntityType="Self.TypePass" />
-          <AssociationSet Name="FK_ExternalPerson_AccountingMaterialValue" Association="Self.FK_ExternalPerson_AccountingMaterialValue">
-            <End Role="AccountingMaterialValue" EntitySet="AccountingMaterialValue" />
-            <End Role="ExternalPerson" EntitySet="ExternalPerson" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Employee_AutoTransport" Association="Self.FK_Employee_AutoTransport">
-            <End Role="AutoTransport" EntitySet="AutoTransport" />
-            <End Role="Employee" EntitySet="Employee" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ExternalPerson_AutoTransport1" Association="Self.FK_ExternalPerson_AutoTransport1">
-            <End Role="AutoTransport" EntitySet="AutoTransport" />
-            <End Role="ExternalPerson" EntitySet="ExternalPerson" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Post_Departament" Association="Self.FK_Post_Departament">
-            <End Role="Departament" EntitySet="Departament" />
-            <End Role="Post" EntitySet="Post" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Employee_Gender" Association="Self.FK_Employee_Gender">
-            <End Role="Gender" EntitySet="Gender" />
-            <End Role="Employee" EntitySet="Employee" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Employee_Pass" Association="Self.FK_Employee_Pass">
-            <End Role="Pass" EntitySet="Pass" />
-            <End Role="Employee" EntitySet="Employee" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Employee_Post" Association="Self.FK_Employee_Post">
-            <End Role="Post" EntitySet="Post" />
-            <End Role="Employee" EntitySet="Employee" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ExternalPerson_Gender" Association="Self.FK_ExternalPerson_Gender">
-            <End Role="Gender" EntitySet="Gender" />
-            <End Role="ExternalPerson" EntitySet="ExternalPerson" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ExternalPerson_Pass" Association="Self.FK_ExternalPerson_Pass">
-            <End Role="Pass" EntitySet="Pass" />
-            <End Role="ExternalPerson" EntitySet="ExternalPerson" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Pass_TypePass" Association="Self.FK_Pass_TypePass">
-            <End Role="TypePass" EntitySet="TypePass" />
-            <End Role="Pass" EntitySet="Pass" />
-          </AssociationSet>
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -694,7 +350,54 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
-        </EntityContainer>
+          <EntitySet Name="AccountingMaterialValue" EntityType="CheckPointDbModel.AccountingMaterialValue" />
+          <EntitySet Name="AutoTransport" EntityType="CheckPointDbModel.AutoTransport" />
+          <EntitySet Name="Departament" EntityType="CheckPointDbModel.Departament" />
+          <EntitySet Name="Employee" EntityType="CheckPointDbModel.Employee" />
+          <EntitySet Name="ExternalPerson" EntityType="CheckPointDbModel.ExternalPerson" />
+          <EntitySet Name="Gender" EntityType="CheckPointDbModel.Gender" />
+          <EntitySet Name="InfoArrivalDeparture" EntityType="CheckPointDbModel.InfoArrivalDeparture" />
+          <EntitySet Name="Pass" EntityType="CheckPointDbModel.Pass" />
+          <EntitySet Name="Post" EntityType="CheckPointDbModel.Post" />
+          <EntitySet Name="sysdiagrams" EntityType="CheckPointDbModel.sysdiagrams" />
+          <EntitySet Name="TypePass" EntityType="CheckPointDbModel.TypePass" />
+          <AssociationSet Name="FK_AccountingMaterialValue_Pass" Association="CheckPointDbModel.FK_AccountingMaterialValue_Pass">
+            <End Role="Pass" EntitySet="Pass" />
+            <End Role="AccountingMaterialValue" EntitySet="AccountingMaterialValue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AutoTransport_Pass" Association="CheckPointDbModel.FK_AutoTransport_Pass">
+            <End Role="Pass" EntitySet="Pass" />
+            <End Role="AutoTransport" EntitySet="AutoTransport" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Post_Departament" Association="CheckPointDbModel.FK_Post_Departament">
+            <End Role="Departament" EntitySet="Departament" />
+            <End Role="Post" EntitySet="Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Gender" Association="CheckPointDbModel.FK_Employee_Gender">
+            <End Role="Gender" EntitySet="Gender" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Pass" Association="CheckPointDbModel.FK_Employee_Pass">
+            <End Role="Pass" EntitySet="Pass" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Post" Association="CheckPointDbModel.FK_Employee_Post">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExternalPerson_Gender" Association="CheckPointDbModel.FK_ExternalPerson_Gender">
+            <End Role="Gender" EntitySet="Gender" />
+            <End Role="ExternalPerson" EntitySet="ExternalPerson" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExternalPerson_Pass" Association="CheckPointDbModel.FK_ExternalPerson_Pass">
+            <End Role="Pass" EntitySet="Pass" />
+            <End Role="ExternalPerson" EntitySet="ExternalPerson" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pass_TypePass" Association="CheckPointDbModel.FK_Pass_TypePass">
+            <End Role="TypePass" EntitySet="TypePass" />
+            <End Role="Pass" EntitySet="Pass" />
+          </AssociationSet>
+          </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
           <Property Type="Binary" Name="definition" Nullable="true" />
@@ -706,134 +409,260 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
-      </Schema>
+        <EntityType Name="AccountingMaterialValue">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Weight" Type="Int32" />
+          <Property Name="Count" Type="Int32" />
+          <Property Name="Price" Type="Int32" />
+          <Property Name="IDPass" Type="Int32" />
+          <NavigationProperty Name="Pass" Relationship="CheckPointDbModel.FK_AccountingMaterialValue_Pass" FromRole="AccountingMaterialValue" ToRole="Pass" />
+        </EntityType>
+        <EntityType Name="AutoTransport">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Mark" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StateNumber" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SeriesNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Color" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IDPass" Type="Int32" />
+          <NavigationProperty Name="Pass" Relationship="CheckPointDbModel.FK_AutoTransport_Pass" FromRole="AutoTransport" ToRole="Pass" />
+        </EntityType>
+        <EntityType Name="Departament">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Post" Relationship="CheckPointDbModel.FK_Post_Departament" FromRole="Departament" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Patronumic" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Login" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Birthday" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="SeriesPassport" Type="Int32" Nullable="false" />
+          <Property Name="NumberPassport" Type="Int32" Nullable="false" />
+          <Property Name="IDPost" Type="Int32" Nullable="false" />
+          <Property Name="IDPass" Type="Int32" Nullable="false" />
+          <Property Name="IDGender" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Gender" Relationship="CheckPointDbModel.FK_Employee_Gender" FromRole="Employee" ToRole="Gender" />
+          <NavigationProperty Name="Pass" Relationship="CheckPointDbModel.FK_Employee_Pass" FromRole="Employee" ToRole="Pass" />
+          <NavigationProperty Name="Post" Relationship="CheckPointDbModel.FK_Employee_Post" FromRole="Employee" ToRole="Post" />
+        </EntityType>
+        <EntityType Name="ExternalPerson">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Patronumic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Birthday" Type="DateTime" Precision="0" />
+          <Property Name="SeriesPassport" Type="Int32" />
+          <Property Name="NumberPassport" Type="Int32" />
+          <Property Name="IDPass" Type="Int32" />
+          <Property Name="IDGender" Type="Int32" />
+          <NavigationProperty Name="Gender" Relationship="CheckPointDbModel.FK_ExternalPerson_Gender" FromRole="ExternalPerson" ToRole="Gender" />
+          <NavigationProperty Name="Pass" Relationship="CheckPointDbModel.FK_ExternalPerson_Pass" FromRole="ExternalPerson" ToRole="Pass" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employee" Relationship="CheckPointDbModel.FK_Employee_Gender" FromRole="Gender" ToRole="Employee" />
+          <NavigationProperty Name="ExternalPerson" Relationship="CheckPointDbModel.FK_ExternalPerson_Gender" FromRole="Gender" ToRole="ExternalPerson" />
+        </EntityType>
+        <EntityType Name="InfoArrivalDeparture">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="IDEmployee" Type="Int32" />
+          <Property Name="IDExternalPerson" Type="Int32" />
+          <Property Name="ArrivalTime" Type="DateTime" Precision="3" />
+          <Property Name="DepartureTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Pass">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDTypePass" Type="Int32" />
+          <Property Name="DateOfFormation" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AccountingMaterialValue" Relationship="CheckPointDbModel.FK_AccountingMaterialValue_Pass" FromRole="Pass" ToRole="AccountingMaterialValue" />
+          <NavigationProperty Name="AutoTransport" Relationship="CheckPointDbModel.FK_AutoTransport_Pass" FromRole="Pass" ToRole="AutoTransport" />
+          <NavigationProperty Name="Employee" Relationship="CheckPointDbModel.FK_Employee_Pass" FromRole="Pass" ToRole="Employee" />
+          <NavigationProperty Name="ExternalPerson" Relationship="CheckPointDbModel.FK_ExternalPerson_Pass" FromRole="Pass" ToRole="ExternalPerson" />
+          <NavigationProperty Name="TypePass" Relationship="CheckPointDbModel.FK_Pass_TypePass" FromRole="Pass" ToRole="TypePass" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IDDepartament" Type="Int32" />
+          <NavigationProperty Name="Departament" Relationship="CheckPointDbModel.FK_Post_Departament" FromRole="Post" ToRole="Departament" />
+          <NavigationProperty Name="Employee" Relationship="CheckPointDbModel.FK_Employee_Post" FromRole="Post" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TypePass">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Pass" Relationship="CheckPointDbModel.FK_Pass_TypePass" FromRole="TypePass" ToRole="Pass" />
+        </EntityType>
+        <Association Name="FK_AccountingMaterialValue_Pass">
+          <End Type="CheckPointDbModel.Pass" Role="Pass" Multiplicity="0..1" />
+          <End Type="CheckPointDbModel.AccountingMaterialValue" Role="AccountingMaterialValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pass">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AccountingMaterialValue">
+              <PropertyRef Name="IDPass" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AutoTransport_Pass">
+          <End Type="CheckPointDbModel.Pass" Role="Pass" Multiplicity="0..1" />
+          <End Type="CheckPointDbModel.AutoTransport" Role="AutoTransport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pass">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AutoTransport">
+              <PropertyRef Name="IDPass" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Post_Departament">
+          <End Type="CheckPointDbModel.Departament" Role="Departament" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CheckPointDbModel.Post" Role="Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departament">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="IDDepartament" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Gender">
+          <End Type="CheckPointDbModel.Gender" Role="Gender" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CheckPointDbModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="IDGender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Pass">
+          <End Type="CheckPointDbModel.Pass" Role="Pass" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CheckPointDbModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pass">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="IDPass" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Post">
+          <End Type="CheckPointDbModel.Post" Role="Post" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CheckPointDbModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="IDPost" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExternalPerson_Gender">
+          <End Type="CheckPointDbModel.Gender" Role="Gender" Multiplicity="0..1" />
+          <End Type="CheckPointDbModel.ExternalPerson" Role="ExternalPerson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ExternalPerson">
+              <PropertyRef Name="IDGender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExternalPerson_Pass">
+          <End Type="CheckPointDbModel.Pass" Role="Pass" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CheckPointDbModel.ExternalPerson" Role="ExternalPerson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pass">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ExternalPerson">
+              <PropertyRef Name="IDPass" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pass_TypePass">
+          <End Type="CheckPointDbModel.TypePass" Role="TypePass" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CheckPointDbModel.Pass" Role="Pass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypePass">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Pass">
+              <PropertyRef Name="IDTypePass" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="Хранилище CheckPointDbModelContainer" CdmEntityContainer="CheckPointDbEntities">
-          <EntitySetMapping Name="AccountingMaterialValue">
-            <EntityTypeMapping TypeName="CheckPointDbModel.AccountingMaterialValue">
-              <MappingFragment StoreEntitySet="AccountingMaterialValue">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Weight" ColumnName="Weight" />
-                <ScalarProperty Name="Count" ColumnName="Count" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AutoTransport">
-            <EntityTypeMapping TypeName="CheckPointDbModel.AutoTransport">
-              <MappingFragment StoreEntitySet="AutoTransport">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Number" ColumnName="Number" />
-                <ScalarProperty Name="Color" ColumnName="Color" />
-                <ScalarProperty Name="Mark" ColumnName="Mark" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Departament">
-            <EntityTypeMapping TypeName="CheckPointDbModel.Departament">
-              <MappingFragment StoreEntitySet="Departament">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Employee">
-            <EntityTypeMapping TypeName="CheckPointDbModel.Employee">
-              <MappingFragment StoreEntitySet="Employee">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="Patronumic" ColumnName="Patronumic" />
-                <ScalarProperty Name="Login" ColumnName="Login" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
-                <ScalarProperty Name="SeriesPassport" ColumnName="SeriesPassport" />
-                <ScalarProperty Name="NumberPassport" ColumnName="NumberPassport" />
-                <ScalarProperty Name="IDPost" ColumnName="IDPost" />
-                <ScalarProperty Name="IDAutoTransport" ColumnName="IDAutoTransport" />
-                <ScalarProperty Name="IDPass" ColumnName="IDPass" />
-                <ScalarProperty Name="IDGender" ColumnName="IDGender" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ExternalPerson">
-            <EntityTypeMapping TypeName="CheckPointDbModel.ExternalPerson">
-              <MappingFragment StoreEntitySet="ExternalPerson">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="Patronumic" ColumnName="Patronumic" />
-                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
-                <ScalarProperty Name="SeriesPassport" ColumnName="SeriesPassport" />
-                <ScalarProperty Name="NumberPassport" ColumnName="NumberPassport" />
-                <ScalarProperty Name="IDAutoTransport" ColumnName="IDAutoTransport" />
-                <ScalarProperty Name="IDPass" ColumnName="IDPass" />
-                <ScalarProperty Name="IDAccountingMaterialValue" ColumnName="IDAccountingMaterialValue" />
-                <ScalarProperty Name="IDGender" ColumnName="IDGender" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Gender">
-            <EntityTypeMapping TypeName="CheckPointDbModel.Gender">
-              <MappingFragment StoreEntitySet="Gender">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="InfoArrivalDeparture">
-            <EntityTypeMapping TypeName="CheckPointDbModel.InfoArrivalDeparture">
-              <MappingFragment StoreEntitySet="InfoArrivalDeparture">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="IDEmployee" ColumnName="IDEmployee" />
-                <ScalarProperty Name="IDExternalPerson" ColumnName="IDExternalPerson" />
-                <ScalarProperty Name="ArrivalTime" ColumnName="ArrivalTime" />
-                <ScalarProperty Name="DepartureTime" ColumnName="DepartureTime" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Pass">
-            <EntityTypeMapping TypeName="CheckPointDbModel.Pass">
-              <MappingFragment StoreEntitySet="Pass">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Number" ColumnName="Number" />
-                <ScalarProperty Name="IDTypePass" ColumnName="IDTypePass" />
-                <ScalarProperty Name="DateOfFormation" ColumnName="DateOfFormation" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Post">
-            <EntityTypeMapping TypeName="CheckPointDbModel.Post">
-              <MappingFragment StoreEntitySet="Post">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="IDDepartament" ColumnName="IDDepartament" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="CheckPointDbModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TypePass">
-            <EntityTypeMapping TypeName="CheckPointDbModel.TypePass">
-              <MappingFragment StoreEntitySet="TypePass">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище CheckPointDbModel.sp_alterdiagram" />
           <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище CheckPointDbModel.sp_creatediagram" />
           <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище CheckPointDbModel.sp_dropdiagram" />
@@ -858,7 +687,128 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище CheckPointDbModel.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище CheckPointDbModel.sp_upgraddiagrams" />
-        </EntityContainerMapping>
+          <EntitySetMapping Name="AccountingMaterialValue">
+            <EntityTypeMapping TypeName="CheckPointDbModel.AccountingMaterialValue">
+              <MappingFragment StoreEntitySet="AccountingMaterialValue">
+                <ScalarProperty Name="IDPass" ColumnName="IDPass" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AutoTransport">
+            <EntityTypeMapping TypeName="CheckPointDbModel.AutoTransport">
+              <MappingFragment StoreEntitySet="AutoTransport">
+                <ScalarProperty Name="IDPass" ColumnName="IDPass" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="SeriesNumber" ColumnName="SeriesNumber" />
+                <ScalarProperty Name="StateNumber" ColumnName="StateNumber" />
+                <ScalarProperty Name="Mark" ColumnName="Mark" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departament">
+            <EntityTypeMapping TypeName="CheckPointDbModel.Departament">
+              <MappingFragment StoreEntitySet="Departament">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employee">
+            <EntityTypeMapping TypeName="CheckPointDbModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="IDGender" ColumnName="IDGender" />
+                <ScalarProperty Name="IDPass" ColumnName="IDPass" />
+                <ScalarProperty Name="IDPost" ColumnName="IDPost" />
+                <ScalarProperty Name="NumberPassport" ColumnName="NumberPassport" />
+                <ScalarProperty Name="SeriesPassport" ColumnName="SeriesPassport" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Patronumic" ColumnName="Patronumic" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExternalPerson">
+            <EntityTypeMapping TypeName="CheckPointDbModel.ExternalPerson">
+              <MappingFragment StoreEntitySet="ExternalPerson">
+                <ScalarProperty Name="IDGender" ColumnName="IDGender" />
+                <ScalarProperty Name="IDPass" ColumnName="IDPass" />
+                <ScalarProperty Name="NumberPassport" ColumnName="NumberPassport" />
+                <ScalarProperty Name="SeriesPassport" ColumnName="SeriesPassport" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="Patronumic" ColumnName="Patronumic" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Gender">
+            <EntityTypeMapping TypeName="CheckPointDbModel.Gender">
+              <MappingFragment StoreEntitySet="Gender">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InfoArrivalDeparture">
+            <EntityTypeMapping TypeName="CheckPointDbModel.InfoArrivalDeparture">
+              <MappingFragment StoreEntitySet="InfoArrivalDeparture">
+                <ScalarProperty Name="DepartureTime" ColumnName="DepartureTime" />
+                <ScalarProperty Name="ArrivalTime" ColumnName="ArrivalTime" />
+                <ScalarProperty Name="IDExternalPerson" ColumnName="IDExternalPerson" />
+                <ScalarProperty Name="IDEmployee" ColumnName="IDEmployee" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pass">
+            <EntityTypeMapping TypeName="CheckPointDbModel.Pass">
+              <MappingFragment StoreEntitySet="Pass">
+                <ScalarProperty Name="DateOfFormation" ColumnName="DateOfFormation" />
+                <ScalarProperty Name="IDTypePass" ColumnName="IDTypePass" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Post">
+            <EntityTypeMapping TypeName="CheckPointDbModel.Post">
+              <MappingFragment StoreEntitySet="Post">
+                <ScalarProperty Name="IDDepartament" ColumnName="IDDepartament" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="CheckPointDbModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypePass">
+            <EntityTypeMapping TypeName="CheckPointDbModel.TypePass">
+              <MappingFragment StoreEntitySet="TypePass">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

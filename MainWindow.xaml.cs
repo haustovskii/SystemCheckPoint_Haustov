@@ -3,7 +3,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using SystemCheckPoint.AppData;
-using SystemCheckPoint.Page;
 
 namespace SystemCheckPoint
 {
@@ -15,19 +14,14 @@ namespace SystemCheckPoint
         public MainWindow()
         {
             InitializeComponent();
-            AppFrame.FrameMain = FrameMain;
-            FrameMain.Navigate(new PageLogin());
         }
-        private void BtnClose_Click(object sender, RoutedEventArgs e) => Close();
-        private void BtnPollUp_Click(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
+        private void ImgClose_MouseDown(object sender, RoutedEventArgs e) => Close();
+        private void ImgPollUp_MouseDown(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
         private void Grid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
-            {
                 this.DragMove();
-            }
         }
-
         private void BtnEnter_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -36,8 +30,9 @@ namespace SystemCheckPoint
                 if (userDb != null)
                 {
                     MessageBox.Show($"Добро пожаловать {userDb.FirstName} {userDb.Patronumic}", "Успешный вход", MessageBoxButton.OK, MessageBoxImage.Information);
-                    FrameMain.Visibility = Visibility.Visible;
-                    //AppFrame.FrameMain.Navigate(new PageMenuUser(userDb.IDPost));
+                    WorkWindow workWindow = new WorkWindow(userDb.ID);
+                    workWindow.Show();
+                    this.Close();
                 }
                 else
                     MessageBox.Show("Неверный логин или пароль", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);

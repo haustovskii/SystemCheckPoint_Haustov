@@ -14,21 +14,13 @@ namespace SystemCheckPoint.AppData
     
     public partial class AutoTransport
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public AutoTransport()
-        {
-            this.Employee = new HashSet<Employee>();
-            this.ExternalPerson = new HashSet<ExternalPerson>();
-        }
-    
         public int ID { get; set; }
-        public string Number { get; set; }
-        public string Color { get; set; }
         public string Mark { get; set; }
+        public string StateNumber { get; set; }
+        public string SeriesNumber { get; set; }
+        public string Color { get; set; }
+        public Nullable<int> IDPass { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employee> Employee { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ExternalPerson> ExternalPerson { get; set; }
+        public virtual Pass Pass { get; set; }
     }
 }

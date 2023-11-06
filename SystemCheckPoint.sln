@@ -5,8 +5,6 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemCheckPoint", "SystemCheckPoint.csproj", "{EC1E429D-B615-4CF2-A96A-158DC8654A39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoadingDataC#", "..\..\.Temps\LoadingDataC#\LoadingDataC#.csproj", "{414F1118-18B7-4E37-9660-CD13E036A123}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{EC1E429D-B615-4CF2-A96A-158DC8654A39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC1E429D-B615-4CF2-A96A-158DC8654A39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC1E429D-B615-4CF2-A96A-158DC8654A39}.Release|Any CPU.Build.0 = Release|Any CPU
-		{414F1118-18B7-4E37-9660-CD13E036A123}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{414F1118-18B7-4E37-9660-CD13E036A123}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{414F1118-18B7-4E37-9660-CD13E036A123}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{414F1118-18B7-4E37-9660-CD13E036A123}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,115 +6,76 @@
     xmlns:local="clr-namespace:SystemCheckPoint"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Контрольно-пропускной пункт"
-    Width="1200"
-    Height="800"
-    MinWidth="1200"
-    MinHeight="800"
-    FontSize="18"
-    Icon="/Images/logo.ico"
+    MinWidth="800"
+    MinHeight="500"
+    MaxWidth="800"
+    MaxHeight="500"
+    FontSize="20"
+    Icon="/Images/logo_new.ico"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d">
-    <Grid Background="#F2F2F2">
+    <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.12*" MouseDown="Grid_MouseDown" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="100" MouseDown="Grid_MouseDown" />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" MouseDown="Grid_MouseDown">
             <TextBlock Background="Transparent" MouseDown="Grid_MouseDown" />
-            <StackPanel Orientation="Horizontal">
-                <Image
-                    Margin="10"
-                    HorizontalAlignment="Left"
-                    Source="/Images/logo.png" />
-                <StackPanel Margin="0,10,0,0" MouseDown="Grid_MouseDown">
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <Image Margin="10" Source="/Images/logo_new.png" />
+                <StackPanel Margin="0,10" MouseDown="Grid_MouseDown">
+                    <TextBlock Margin="10,0" Text="ИС Контрольно-пропускной пункт" />
                     <TextBlock
-                        Margin="10,0,0,0"
-                        FontSize="20"
-                        Text="ИС Контрольно-пропускной пункт" />
-                    <!--  начальное значение Авторизация  -->
-                    <TextBlock
-                        Name="TbxNamePage"
-                        Margin="10,3,0,0"
+                        Margin="10"
                         FontSize="16"
-                        Text="{Binding ElementName=FrameMain, Path=Content.Title}" />
+                        Text="Авторизация" />
                 </StackPanel>
             </StackPanel>
             <StackPanel
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
                 Orientation="Horizontal">
-                <Button Name="BtnPollUp" Click="BtnPollUp_Click">
-                    <Image Source="Images/minsize.png" />
-                </Button>
-                <Button Click="BtnClose_Click">
-                    <Image Source="Images/close.png" />
-                </Button>
-            </StackPanel>
-            <StackPanel
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Orientation="Horizontal">
-                <Button
-                    Name="BtnPassMenu"
-                    Width="100"
-                    Height="32"
-                    Margin="10"
-                    Padding="3"
-                    HorizontalAlignment="Center"
-                    Background="#EAF4E4"
-                    BorderBrush="#A9D18E"
-                    BorderThickness="1"
-                    Content="Пропуски" />
-                <Button
-                    Name="BtnReportMenu"
-                    Width="100"
-                    Height="32"
-                    Margin="10"
-                    Padding="3"
-                    HorizontalAlignment="Center"
-                    Background="#EAF4E4"
-                    BorderBrush="#A9D18E"
-                    BorderThickness="1"
-                    Content="Отчеты" />
-                <Button
-                    Name="BtnExit"
-                    Width="100"
-                    Height="32"
-                    Margin="10"
-                    Padding="3"
-                    HorizontalAlignment="Center"
-                    Background="#EAF4E4"
-                    BorderBrush="#A9D18E"
-                    BorderThickness="1"
-                    Content="Выход" />
+                <Border Style="{StaticResource BrdWindow}">
+                    <Image
+                        Name="ImgPollUp"
+                        MouseDown="ImgPollUp_MouseDown"
+                        Source="Images/minsize.png"
+                        Style="{StaticResource ImgWindow}" />
+                </Border>
+                <Border Style="{StaticResource BrdWindow}">
+                    <Image
+                        Name="ImgClose"
+                        MouseDown="ImgClose_MouseDown"
+                        Source="Images/close.png"
+                        Style="{StaticResource ImgWindow}" />
+                </Border>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1">
-            <StackPanel
-                Name="StnLogin"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">
+            <StackPanel Name="StnLogin">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel>
-                        <TextBlock Margin="10" Text="Логин:" />
-                        <TextBlock Margin="10" Text="Пароль:" />
+                        <TextBlock
+                            Margin="0,10"
+                            HorizontalAlignment="Right"
+                            Text="Логин:" />
+                        <TextBlock
+                            Margin="0,10"
+                            HorizontalAlignment="Right"
+                            Text="Пароль:" />
                     </StackPanel>
                     <StackPanel>
                         <TextBox
                             Name="TbxLogin"
                             Width="190"
-                            Margin="10"
-                            BorderBrush="#A9D18E"
-                            BorderThickness="1"
                             Text="haus-tov" />
                         <PasswordBox
                             Name="PsbPassword"
                             Width="190"
                             Margin="10"
                             BorderBrush="#A9D18E"
-                            BorderThickness="1"
                             Password="irpngm62"
                             PasswordChar="*" />
                     </StackPanel>
@@ -122,19 +83,21 @@
                 <Button
                     Name="BtnEnter"
                     Width="100"
-                    Margin="30"
-                    Padding="3"
+                    Margin="25"
                     HorizontalAlignment="Center"
                     Background="White"
-                    BorderBrush="#A9D18E"
-                    BorderThickness="1"
                     Click="BtnEnter_Click"
                     Content="Войти" />
             </StackPanel>
-            <Frame
-                Name="FrameMain"
-                NavigationUIVisibility="Hidden"
-                Visibility="Collapsed" />
         </Grid>
+        <Image
+            Panel.ZIndex="-1"
+            Grid.Row="1"
+            Width="400"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Opacity="0.1"
+            Source="/Images/img_enter.png"
+            Visibility="Visible" />
     </Grid>
 </Window>

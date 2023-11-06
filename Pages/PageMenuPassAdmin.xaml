@@ -1,0 +1,342 @@
+﻿<Page
+    x:Class="SystemCheckPoint.Page.PageMenuPassAdmin"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SystemCheckPoint.Page"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
+    Title="Меню Пропуски"
+    FontSize="18"
+    mc:Ignorable="d">
+    <!--  Содержание страницы  -->
+    <Grid>
+        <Border>
+            <Grid Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="72" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <!--  Сортировки и фильтрации  -->
+                <Grid Grid.Row="0">
+                    <Grid Name="GrdSort" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <ComboBox Name="CmbViewType" SelectionChanged="CmbFilter_SelectionChanged">
+                                <ComboBoxItem Content="Отобразить всех" />
+                                <ComboBoxItem Content="Только сотрудников" />
+                                <ComboBoxItem Content="Только сторонних лиц" />
+                            </ComboBox>
+                            <ComboBox Name="CmbFilter" SelectionChanged="CmbFilter_SelectionChanged">
+                                <ComboBoxItem Content="По фамилии" />
+                                <ComboBoxItem Content="По дате рождения" />
+                                <ComboBoxItem Content="По № пропуска" />
+                                <ComboBoxItem Content="По дате добавления" />
+                            </ComboBox>
+                            <ComboBox Name="CmbSort" SelectionChanged="CmbFilter_SelectionChanged">
+                                <ComboBoxItem Content="По возрастанию" />
+                                <ComboBoxItem Content="По убыванию" />
+                            </ComboBox>
+                            <Grid Grid.Column="3">
+                                <TextBox
+                                    Name="TbxFind"
+                                    Width="180"
+                                    Padding="0,0,25,0"
+                                    TextChanged="TbxFind_TextChanged" />
+                                <Image
+                                    Height="20"
+                                    Margin="15,0"
+                                    HorizontalAlignment="Right"
+                                    Source="/Images/find.png" />
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                    <Button
+                        Name="BtnBack"
+                        Click="BtnBack_Click"
+                        Style="{StaticResource StyleBtnDefault}"
+                        Visibility="Collapsed" />
+                </Grid>
+                <!--  Таблица с данными людей и пропусков (Нужно доделать)  -->
+                <StackPanel
+                    Name="StpDataGrid"
+                    Grid.Row="1"
+                    Visibility="Visible">
+                    <DataGrid
+                        Name="DgrData"
+                        Grid.Row="1"
+                        Height="450"
+                        HorizontalAlignment="Center"
+                        d:ItemsSource="{d:SampleData ItemCount=3}"
+                        AutoGenerateColumns="False"
+                        CanUserDeleteRows="False"
+                        IsReadOnly="True"
+                        LoadingRow="DgrData_LoadingRow"
+                        SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Width="50"
+                                Binding="{Binding Type}"
+                                Header="Тип" />
+                            <DataGridTextColumn
+                                Width="120"
+                                Binding="{Binding LastName}"
+                                Header="Фамилия" />
+                            <DataGridTextColumn
+                                Width="120"
+                                Binding="{Binding FirstName}"
+                                Header="Имя" />
+                            <DataGridTextColumn
+                                Width="150"
+                                Binding="{Binding Patronumic}"
+                                Header="Отчество" />
+                            <DataGridTextColumn
+                                Width="140"
+                                Binding="{Binding Bithday}"
+                                Header="Дата рождения" />
+                            <DataGridTextColumn
+                                Width="150"
+                                Binding="{Binding NumberPass}"
+                                Header="Номер пропуска" />
+                            <DataGridTextColumn Binding="{Binding DateOfFormation}" Header="Дата добавления" />
+                            <DataGridTemplateColumn Width="90" Header="Фото">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image
+                                            Width="80"
+                                            Height="80"
+                                            Source="{Binding EmployeePhoto}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid>
+                        <TextBlock
+                            Width="160"
+                            Margin="10,5"
+                            HorizontalAlignment="Left"
+                            FontSize="14"
+                            Text="*СТ - Сотрудник        *СТЛ - Стороннее лицо"
+                            TextWrapping="Wrap" />
+                        <StackPanel Grid.Row="1" Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal">
+                                <Button
+                                    Name="BtnAddPass"
+                                    Width="190"
+                                    Margin="10"
+                                    Click="BtnAddPass_Click"
+                                    Content="Добавить/Изменить"
+                                    Style="{StaticResource StyleBtnDefault}" />
+                                <Button
+                                    Name="BtnDeletePass"
+                                    Margin="10"
+                                    Click="BtnDeletePass_Click"
+                                    Content="Удалить"
+                                    Style="{StaticResource StyleBtnDefault}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+                <!--  Окно ввода/редактирования данных  -->
+                <StackPanel
+                    Name="StpAddEditPass"
+                    Grid.Row="1"
+                    Background="White"
+                    Visibility="Collapsed">
+                    <StackPanel Orientation="Vertical">
+                        <GroupBox BorderBrush="#A9D18E" Header="    Личные данные сотрудника    ">
+                            <StackPanel Orientation="Horizontal">
+                                <!--  Все данные карточки  -->
+                                <StackPanel Orientation="Vertical">
+                                    <!--  Имя и поля  -->
+                                    <StackPanel Orientation="Horizontal">
+                                        <!--  Имя  -->
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock
+                                                Margin="15,13"
+                                                HorizontalAlignment="Right"
+                                                Text="Номер пропуска: " />
+                                            <TextBlock
+                                                Margin="15,13"
+                                                HorizontalAlignment="Right"
+                                                Text="Фамилия: " />
+                                            <TextBlock
+                                                Margin="15"
+                                                HorizontalAlignment="Right"
+                                                Text="Имя: " />
+                                            <TextBlock
+                                                Margin="15"
+                                                HorizontalAlignment="Right"
+                                                Text="Отчество: " />
+                                            <TextBlock
+                                                Margin="15"
+                                                HorizontalAlignment="Right"
+                                                Text="Дата рождения: " />
+                                            <TextBlock
+                                                Margin="15"
+                                                HorizontalAlignment="Right"
+                                                Text="Пол: " />
+                                            <TextBlock
+                                                Margin="15"
+                                                HorizontalAlignment="Right"
+                                                Text="Должность: " />
+                                        </StackPanel>
+                                        <!--  Поля  -->
+                                        <StackPanel Orientation="Vertical">
+                                            <StackPanel Orientation="Horizontal">
+                                                <!--  Возможность выбрать из имеющихся данных  -->
+                                                <TextBox
+                                                    x:Name="TbxIDPass"
+                                                    Width="206"
+                                                    Margin="0,10,10,10"
+                                                    IsReadOnly="True" />
+                                                <!--  Возможность выбрать из имеющихся данных  -->
+                                                <Button
+                                                    x:Name="BtnSelectEmployee"
+                                                    Width="32"
+                                                    Background="#EAF4E4"
+                                                    Click="BtnSelectEmployee_Click"
+                                                    Content="+" />
+                                            </StackPanel>
+                                            <TextBox Name="TbxLastName" Width="250" />
+                                            <TextBox Name="TbxName" Width="250" />
+                                            <TextBox Name="TbxPatronymic" Width="250" />
+                                            <DatePicker
+                                                Name="DtpDate"
+                                                Width="250"
+                                                Height="32"
+                                                BorderBrush="#A9D18E" />
+                                            <ComboBox Name="CmbGender" Width="250">
+                                                <ComboBoxItem Content="Женский" />
+                                                <ComboBoxItem Content="Мужской" />
+                                            </ComboBox>
+                                            <ComboBox Name="CmbPost" Width="250" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <Border Margin="10,0,5,0" Style="{StaticResource StyleBrd}" />
+                                    <!--  Серия и номер  -->
+                                    <StackPanel Margin="10" Orientation="Horizontal">
+                                        <TextBlock Margin="27,15" Text="Серия: " />
+                                        <TextBox Name="TbxSerriesPass" Width="65" />
+                                        <TextBlock Margin="22,15" Text="Номер: " />
+                                        <TextBox Name="TbxNumberPass" Width="65" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <!--  Фото и загрузка  -->
+                                <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                                    <Border
+                                        Width="150"
+                                        Height="150"
+                                        Margin="15,0"
+                                        Style="{StaticResource StyleBrd}">
+                                        <Image Name="ImgEmpl" />
+                                    </Border>
+                                    <TextBlock
+                                        Margin="5"
+                                        Text="Фото сотрудника"
+                                        TextAlignment="Center" />
+                                    <Button
+                                        Width="160"
+                                        Background="#EAF4E4"
+                                        Content="Загрузить фото" />
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                    <Button
+                        Name="BtnSave"
+                        Width="150"
+                        Margin="15"
+                        Background="#EAF4E4"
+                        Click="BtnSave_Click"
+                        Content="Сохранить" />
+                </StackPanel>
+                <!--<Image
+                    Grid.Row="1"
+                    Width="200"
+                    Margin="25"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Opacity="0.2"
+                    Source="/Images/img_inputdata.png"
+                    Visibility="{Binding ElementName=StpAddEditPass, Path=Visibility}" />-->
+            </Grid>
+        </Border>
+        <!--  Выпадающий список для автомотического заполнения данных  -->
+        <Border
+            Name="BrdSelectEmployee"
+            Width="460"
+            Height="225"
+            Margin="175,10,0,0"
+            Background="White"
+            Style="{StaticResource StyleBrd}"
+            Visibility="Collapsed">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Grid>
+                        <TextBox
+                            Name="TbxSelectEmployee"
+                            Width="250"
+                            Padding="0,0,30,0"
+                            TextChanged="TbxSelectEmployee_TextChanged" />
+                        <Image
+                            Height="20"
+                            Margin="15,0"
+                            HorizontalAlignment="Right"
+                            Source="/Images/find.png" />
+                    </Grid>
+                </StackPanel>
+                <ListView
+                    Name="LsvEmployee"
+                    Height="155"
+                    d:ItemsSource="{d:SampleData ItemCount=5}"
+                    BorderThickness="0"
+                    SelectionChanged="LsvEmployee_SelectionChanged"
+                    SelectionMode="Single">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Border Style="{StaticResource StyleBrd}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel Margin="3" Orientation="Horizontal">
+                                            <TextBlock
+                                                Width="30"
+                                                Margin="7,5"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding ID}" />
+                                            <Border
+                                                Height="32"
+                                                BorderThickness="0.5"
+                                                Style="{StaticResource StyleBrd}" />
+                                            <TextBlock
+                                                Width="100"
+                                                Margin="5"
+                                                Text="{Binding LastName}" />
+                                            <Border
+                                                Height="32"
+                                                BorderThickness="0.5"
+                                                Style="{StaticResource StyleBrd}" />
+                                            <TextBlock
+                                                Width="100"
+                                                Margin="5"
+                                                Text="{Binding FirstName}" />
+                                            <Border
+                                                Height="32"
+                                                BorderThickness="0.5"
+                                                Style="{StaticResource StyleBrd}" />
+                                            <TextBlock
+                                                Width="130"
+                                                Margin="5"
+                                                Text="{Binding Patronumic}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>

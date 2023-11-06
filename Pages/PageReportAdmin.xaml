@@ -1,0 +1,98 @@
+﻿<Page
+    x:Class="SystemCheckPoint.Page.PageReportAdmin"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SystemCheckPoint.Page"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Меню Формирование отчетов"
+    FontSize="18"
+    mc:Ignorable="d">
+    <Border Background="White">
+        <Grid>
+            <StackPanel Orientation="Vertical">
+                <GroupBox
+                    BorderBrush="#A9D18E"
+                    BorderThickness="1"
+                    Header="    Формирование отчета    ">
+                    <StackPanel Margin="10">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="10"
+                                VerticalAlignment="Center"
+                                Text="Дата отчета: " />
+                            <DatePicker
+                                Name="CldDataReport"
+                                Height="32"
+                                Margin="5,10"
+                                BorderBrush="#A9D18E" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Vertical">
+                                <Border
+                                    Width="20"
+                                    Height="20"
+                                    Margin="5,9"
+                                    BorderThickness="2"
+                                    CornerRadius="10"
+                                    MouseDown="ElpPozition1_MouseDown"
+                                    Style="{StaticResource StyleBrd}">
+                                    <Ellipse
+                                        Name="ElpPozition1"
+                                        Width="10"
+                                        Height="10"
+                                        Fill="#A9D18E"
+                                        MouseDown="ElpPozition1_MouseDown"
+                                        Visibility="Collapsed" />
+                                </Border>
+                                <Border
+                                    Width="20"
+                                    Height="20"
+                                    Margin="5,9"
+                                    BorderThickness="2"
+                                    CornerRadius="10"
+                                    MouseDown="ElpPozition2_MouseDown"
+                                    Style="{StaticResource StyleBrd}">
+                                    <Ellipse
+                                        Name="ElpPozition2"
+                                        Width="10"
+                                        Height="10"
+                                        Fill="#A9D18E"
+                                        MouseDown="ElpPozition2_MouseDown"
+                                        Visibility="Collapsed" />
+                                </Border>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock
+                                    Margin="7"
+                                    VerticalAlignment="Center"
+                                    Text="О сотрудниках" />
+                                <TextBlock
+                                    Margin="7"
+                                    VerticalAlignment="Center"
+                                    Text="О сторонних лицах" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+                <Button
+                    Name="BtnCreateReport"
+                    Width="250"
+                    Margin="25"
+                    Click="BtnCreateReport_Click"
+                    Content="Вывести отчет на печать"
+                    Style="{StaticResource StyleBtnDefault}" />
+            </StackPanel>
+            <Button
+                Name="BtnBack"
+                Click="BtnBack_Click"
+                Style="{StaticResource StyleBtnDefault}" />
+            <Image
+                Width="400"
+                Margin="75,0"
+                HorizontalAlignment="Right"
+                Opacity="0.1"
+                Source="/Images/report.png" />
+        </Grid>
+    </Border>
+</Page>

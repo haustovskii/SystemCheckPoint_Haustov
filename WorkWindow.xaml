@@ -1,0 +1,154 @@
+﻿<Window
+    x:Class="SystemCheckPoint.WorkWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SystemCheckPoint"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Контрольно-пропускной пункт"
+    Width="1200"
+    Height="800"
+    MinWidth="1200"
+    MinHeight="800"
+    FontSize="18"
+    Icon="/Images/logo_new.ico"
+    Loaded="Window_Loaded"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Window.Resources />
+    <Grid>
+        <Grid Background="#F2F2F2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" MouseDown="Grid_MouseDown" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid MouseDown="Grid_MouseDown">
+                <TextBlock Background="Transparent" MouseDown="Grid_MouseDown" />
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <Image
+                        Margin="10"
+                        HorizontalAlignment="Left"
+                        Source="/Images/logo_new.png" />
+                    <StackPanel Margin="0,10,0,0" MouseDown="Grid_MouseDown">
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            FontSize="20"
+                            Text="ИС Контрольно-пропускной пункт" />
+                        <TextBlock
+                            Name="TbxNamePage"
+                            Margin="10,3,0,0"
+                            FontSize="16"
+                            Text="{Binding ElementName=FrameMain, Path=Content.Title}" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+                    <Border Style="{StaticResource BrdWindow}">
+                        <Image
+                            Name="ImgPollUp"
+                            MouseDown="ImgPollUp_MouseDown"
+                            Source="Images/minsize.png"
+                            Style="{StaticResource ImgWindow}" />
+                    </Border>
+                    <Border Style="{StaticResource BrdWindow}">
+                        <Image
+                            Name="ImgClose"
+                            MouseDown="ImgClose_MouseDown"
+                            Source="Images/close.png"
+                            Style="{StaticResource ImgWindow}" />
+                    </Border>
+                </StackPanel>
+            </Grid>
+            <Frame
+                Name="FrameMain"
+                Grid.Row="1"
+                Grid.RowSpan="2"
+                Width="1150"
+                Height="630"
+                Margin="25,26"
+                Panel.ZIndex="1"
+                BorderBrush="#A9D18E"
+                BorderThickness="1"
+                NavigationUIVisibility="Hidden" />
+            <Image
+                Grid.Row="1"
+                Width="400"
+                Margin="50,20"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Opacity="0.1"
+                Source="/Images/cecur_data.png" />
+        </Grid>
+        <StackPanel
+            Height="28.9"
+            Margin="0,0,40,541"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <Border Name="BrdPassAuto" Style="{StaticResource BrdWorkWindow}">
+                <Grid>
+                    <TextBlock
+                        Name="BtnPassAuto"
+                        MouseDown="BtnPassAuto_Click"
+                        Text="Транспорт"
+                        TextAlignment="Center" />
+                    <Border
+                        Name="BrdPassAutoLine"
+                        Margin="0,0,0,10"
+                        VerticalAlignment="Bottom"
+                        BorderThickness="0.5"
+                        Style="{StaticResource StyleBrd}" />
+                </Grid>
+            </Border>
+            <Border Name="BrdPassMenu" Style="{StaticResource BrdWorkWindow}">
+                <Grid>
+                    <TextBlock
+                        Name="BtnPassMenu"
+                        MouseDown="BtnPassMenu_Click"
+                        Text="Пропуск"
+                        TextAlignment="Center" />
+                    <Border
+                        Name="BrdPassMenuLine"
+                        Margin="0,0,0,10"
+                        VerticalAlignment="Bottom"
+                        Background="White"
+                        BorderThickness="0.5"
+                        Style="{StaticResource StyleBrd}" />
+                </Grid>
+            </Border>
+            <Border Name="BrdReportMenu" Style="{StaticResource BrdWorkWindow}">
+                <Grid>
+                    <TextBlock
+                        Name="BtnReportMenu"
+                        MouseDown="BtnReportMenu_Click"
+                        Text="Отчет"
+                        TextAlignment="Center" />
+                    <Border
+                        Name="BrdReportMenuLine"
+                        Margin="0,0,0,10"
+                        VerticalAlignment="Bottom"
+                        BorderThickness="0.5"
+                        Style="{StaticResource StyleBrd}" />
+                </Grid>
+            </Border>
+            <Border Style="{StaticResource BrdWorkWindow}">
+                <Grid>
+                    <TextBlock
+                        Name="BtnExit"
+                        MouseDown="BtnExit_Click"
+                        Text="Выход"
+                        TextAlignment="Center" />
+                    <Border
+                        Margin="0,0,0,10"
+                        VerticalAlignment="Bottom"
+                        BorderThickness="0.5"
+                        Style="{StaticResource StyleBrd}" />
+                </Grid>
+            </Border>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -14,19 +14,13 @@ namespace SystemCheckPoint.AppData
     
     public partial class AccountingMaterialValue
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public AccountingMaterialValue()
-        {
-            this.ExternalPerson = new HashSet<ExternalPerson>();
-        }
-    
         public int ID { get; set; }
         public string Name { get; set; }
         public Nullable<int> Weight { get; set; }
         public Nullable<int> Count { get; set; }
         public Nullable<int> Price { get; set; }
+        public Nullable<int> IDPass { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ExternalPerson> ExternalPerson { get; set; }
+        public virtual Pass Pass { get; set; }
     }
 }
