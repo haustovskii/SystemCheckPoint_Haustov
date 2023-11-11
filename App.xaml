@@ -7,12 +7,12 @@
     <Application.Resources>
         <Style x:Key="BrdWorkWindow" TargetType="Border">
             <Setter Property="Width" Value="110" />
-            <Setter Property="Height" Value="40" />
+            <Setter Property="Height" Value="30" />
             <Setter Property="Margin" Value="5,0" />
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="Background" Value="#EAF4E4" />
             <Setter Property="BorderBrush" Value="#A9D18E" />
-            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="CornerRadius" Value="10 10 0 0" />
             <Setter Property="BorderThickness" Value="1" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
@@ -56,6 +56,14 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#D0D0D0" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="BrdWindow2" TargetType="Border">
+            <Setter Property="Padding" Value="7" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#A9D18E" />
                 </Trigger>
             </Style.Triggers>
         </Style>

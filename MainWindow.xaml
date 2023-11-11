@@ -44,7 +44,7 @@
                         Source="Images/minsize.png"
                         Style="{StaticResource ImgWindow}" />
                 </Border>
-                <Border Style="{StaticResource BrdWindow}">
+                <Border Style="{StaticResource BrdWindow2}">
                     <Image
                         Name="ImgClose"
                         MouseDown="ImgClose_MouseDown"
@@ -70,13 +70,13 @@
                         <TextBox
                             Name="TbxLogin"
                             Width="190"
-                            Text="haus-tov" />
+                            Text="2" />
                         <PasswordBox
                             Name="PsbPassword"
                             Width="190"
                             Margin="10"
                             BorderBrush="#A9D18E"
-                            Password="irpngm62"
+                            Password="2"
                             PasswordChar="*" />
                     </StackPanel>
                 </StackPanel>
@@ -91,11 +91,11 @@
             </StackPanel>
         </Grid>
         <Image
-            Panel.ZIndex="-1"
             Grid.Row="1"
             Width="400"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
+            Panel.ZIndex="-1"
             Opacity="0.1"
             Source="/Images/img_enter.png"
             Visibility="Visible" />

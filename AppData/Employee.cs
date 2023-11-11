@@ -25,9 +25,7 @@ namespace SystemCheckPoint.AppData
         public int NumberPassport { get; set; }
         public int IDPost { get; set; }
         public int IDPass { get; set; }
-        public int IDGender { get; set; }
     
-        public virtual Gender Gender { get; set; }
         public virtual Pass Pass { get; set; }
         public virtual Post Post { get; set; }
     }

@@ -31,11 +31,8 @@
                         Margin="10"
                         HorizontalAlignment="Left"
                         Source="/Images/logo_new.png" />
-                    <StackPanel Margin="0,10,0,0" MouseDown="Grid_MouseDown">
-                        <TextBlock
-                            Margin="10,0,0,0"
-                            FontSize="20"
-                            Text="ИС Контрольно-пропускной пункт" />
+                    <StackPanel Margin="10,10" MouseDown="Grid_MouseDown">
+                        <TextBlock FontSize="20" Text="ИС Контрольно-пропускной пункт" />
                         <TextBlock
                             Name="TbxNamePage"
                             Margin="10,3,0,0"
@@ -54,7 +51,7 @@
                             Source="Images/minsize.png"
                             Style="{StaticResource ImgWindow}" />
                     </Border>
-                    <Border Style="{StaticResource BrdWindow}">
+                    <Border Style="{StaticResource BrdWindow2}">
                         <Image
                             Name="ImgClose"
                             MouseDown="ImgClose_MouseDown"
@@ -66,7 +63,6 @@
             <Frame
                 Name="FrameMain"
                 Grid.Row="1"
-                Grid.RowSpan="2"
                 Width="1150"
                 Height="630"
                 Margin="25,26"
@@ -79,75 +75,40 @@
                 Width="400"
                 Margin="50,20"
                 HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
                 Opacity="0.1"
                 Source="/Images/cecur_data.png" />
         </Grid>
         <StackPanel
-            Height="28.9"
-            Margin="0,0,40,541"
+            Margin="0,0,40,542"
             HorizontalAlignment="Right"
-            VerticalAlignment="Center"
             Orientation="Horizontal">
-            <Border Name="BrdPassAuto" Style="{StaticResource BrdWorkWindow}">
-                <Grid>
-                    <TextBlock
-                        Name="BtnPassAuto"
-                        MouseDown="BtnPassAuto_Click"
-                        Text="Транспорт"
-                        TextAlignment="Center" />
-                    <Border
-                        Name="BrdPassAutoLine"
-                        Margin="0,0,0,10"
-                        VerticalAlignment="Bottom"
-                        BorderThickness="0.5"
-                        Style="{StaticResource StyleBrd}" />
-                </Grid>
+            <Border Name="BrdReportMenu" Style="{StaticResource BrdWorkWindow}">
+                <TextBlock
+                    Name="BtnReportMenu"
+                    MouseDown="BtnReportMenu_Click"
+                    Text="Отчет"
+                    TextAlignment="Center" />
             </Border>
             <Border Name="BrdPassMenu" Style="{StaticResource BrdWorkWindow}">
-                <Grid>
-                    <TextBlock
-                        Name="BtnPassMenu"
-                        MouseDown="BtnPassMenu_Click"
-                        Text="Пропуск"
-                        TextAlignment="Center" />
-                    <Border
-                        Name="BrdPassMenuLine"
-                        Margin="0,0,0,10"
-                        VerticalAlignment="Bottom"
-                        Background="White"
-                        BorderThickness="0.5"
-                        Style="{StaticResource StyleBrd}" />
-                </Grid>
+                <TextBlock
+                    Name="BtnPassMenu"
+                    MouseDown="BtnPassMenu_Click"
+                    Text="Пропуск"
+                    TextAlignment="Center" />
             </Border>
-            <Border Name="BrdReportMenu" Style="{StaticResource BrdWorkWindow}">
-                <Grid>
-                    <TextBlock
-                        Name="BtnReportMenu"
-                        MouseDown="BtnReportMenu_Click"
-                        Text="Отчет"
-                        TextAlignment="Center" />
-                    <Border
-                        Name="BrdReportMenuLine"
-                        Margin="0,0,0,10"
-                        VerticalAlignment="Bottom"
-                        BorderThickness="0.5"
-                        Style="{StaticResource StyleBrd}" />
-                </Grid>
+            <Border Name="BrdPassAuto" Style="{StaticResource BrdWorkWindow}">
+                <TextBlock
+                    Name="BtnPassAuto"
+                    MouseDown="BtnPassAuto_Click"
+                    Text="Транспорт"
+                    TextAlignment="Center" />
             </Border>
             <Border Style="{StaticResource BrdWorkWindow}">
-                <Grid>
-                    <TextBlock
-                        Name="BtnExit"
-                        MouseDown="BtnExit_Click"
-                        Text="Выход"
-                        TextAlignment="Center" />
-                    <Border
-                        Margin="0,0,0,10"
-                        VerticalAlignment="Bottom"
-                        BorderThickness="0.5"
-                        Style="{StaticResource StyleBrd}" />
-                </Grid>
+                <TextBlock
+                    Name="BtnExit"
+                    MouseDown="BtnExit_Click"
+                    Text="Выход"
+                    TextAlignment="Center" />
             </Border>
         </StackPanel>
     </Grid>

@@ -19,5 +19,7 @@ namespace SystemCheckPoint.AppData
         public Nullable<int> IDExternalPerson { get; set; }
         public Nullable<System.DateTime> ArrivalTime { get; set; }
         public Nullable<System.DateTime> DepartureTime { get; set; }
+    
+        public virtual ExternalPerson ExternalPerson { get; set; }
     }
 }

@@ -1,12 +1,14 @@
 ﻿using MessagingToolkit.QRCode.Codec;
-using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using SystemCheckPoint.AppData;
 
 namespace SystemCheckPoint.Report
 {
@@ -15,10 +17,23 @@ namespace SystemCheckPoint.Report
     /// </summary>
     public partial class ReportPassExternalPerson : Window
     {
-        public ReportPassExternalPerson(int IDExternalPerson,int IDPass)
+        readonly string time;
+        public ReportPassExternalPerson(int IDExternalPerson, int IDPass, string Time)
         {
             InitializeComponent();
-            GenerateQR();
+            TblTimeReport.Text = Time;
+            var extPerson = AppConnect.modelOdb.ExternalPerson.FirstOrDefault(x => x.ID == IDExternalPerson);
+            if (extPerson != null)
+            {
+                TblLastName.Text = extPerson.LastName;
+                TblName.Text = extPerson.FirstName;
+                TblPatronymic.Text = extPerson.Patronumic;
+                TblBirthday.Text = extPerson.Birthday.ToString().Substring(0,10);
+                TblSeries.Text = extPerson.SeriesPassport.ToString();
+                TblNumber.Text = extPerson.NumberPassport.ToString();
+            }
+            GenerateQR(IDPass);
+            time = AppConnect.modelOdb.Pass.Where(x => x.ID == extPerson.IDPass).Select(x => x.DateOfFormation).FirstOrDefault().ToString();
         }
 
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
@@ -28,11 +43,10 @@ namespace SystemCheckPoint.Report
                 this.DragMove();
             }
         }
-        private void GenerateQR()
+        private void GenerateQR(int IDPass)
         {
-            string qrtext = "0"; // Считываем текст из TextBox'а
             QRCodeEncoder encoder = new QRCodeEncoder(); // Создаем объект класса QRCodeEncoder
-            Bitmap qrcode = encoder.Encode(qrtext); // Кодируем текст, полученный из TextBox'а (qrtext), в переменную qrcode
+            Bitmap qrcode = encoder.Encode(IDPass.ToString()); // Кодируем текст, полученный из TextBox'а (qrtext), в переменную qrcode
             ImgQR.Source = BitmapToImageSource(qrcode); // Устанавливаем qrcode как источник изображения для ImgQR
         }
 
@@ -42,13 +56,11 @@ namespace SystemCheckPoint.Report
             var memoryStream = new MemoryStream();
             bitmap.Save(memoryStream, ImageFormat.Bmp); // Можно выбрать другой формат, если нужно
             memoryStream.Position = 0;
-
             var imageSource = new BitmapImage();
             imageSource.BeginInit();
             imageSource.StreamSource = memoryStream;
             imageSource.CacheOption = BitmapCacheOption.OnLoad;
             imageSource.EndInit();
-
             return imageSource;
         }
         private void BtnBack_Click(object sender, RoutedEventArgs e)
@@ -58,7 +70,15 @@ namespace SystemCheckPoint.Report
 
         private void BtnPrint_Click(object sender, RoutedEventArgs e)
         {
-
+            StpButton.Visibility = Visibility.Collapsed;
+            PrintDialog printDialog = new PrintDialog();
+            if (printDialog.ShowDialog() == true)
+            {
+                printDialog.PrintVisual(GrdMain, time);
+            }
+            else
+                MessageBox.Show("Пользователь прервал печать!", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
+            StpButton.Visibility = Visibility.Visible;
         }
     }
 }

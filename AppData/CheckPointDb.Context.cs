@@ -32,11 +32,9 @@ namespace SystemCheckPoint.AppData
         public virtual DbSet<Departament> Departament { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<ExternalPerson> ExternalPerson { get; set; }
-        public virtual DbSet<Gender> Gender { get; set; }
         public virtual DbSet<InfoArrivalDeparture> InfoArrivalDeparture { get; set; }
         public virtual DbSet<Pass> Pass { get; set; }
         public virtual DbSet<Post> Post { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TypePass> TypePass { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)

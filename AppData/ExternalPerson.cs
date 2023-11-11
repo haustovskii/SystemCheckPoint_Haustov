@@ -14,6 +14,12 @@ namespace SystemCheckPoint.AppData
     
     public partial class ExternalPerson
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ExternalPerson()
+        {
+            this.InfoArrivalDeparture = new HashSet<InfoArrivalDeparture>();
+        }
+    
         public int ID { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
@@ -22,9 +28,9 @@ namespace SystemCheckPoint.AppData
         public Nullable<int> SeriesPassport { get; set; }
         public Nullable<int> NumberPassport { get; set; }
         public Nullable<int> IDPass { get; set; }
-        public Nullable<int> IDGender { get; set; }
     
-        public virtual Gender Gender { get; set; }
         public virtual Pass Pass { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InfoArrivalDeparture> InfoArrivalDeparture { get; set; }
     }
 }

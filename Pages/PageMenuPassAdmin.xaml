@@ -176,10 +176,6 @@
                                             <TextBlock
                                                 Margin="15"
                                                 HorizontalAlignment="Right"
-                                                Text="Пол: " />
-                                            <TextBlock
-                                                Margin="15"
-                                                HorizontalAlignment="Right"
                                                 Text="Должность: " />
                                         </StackPanel>
                                         <!--  Поля  -->
@@ -207,10 +203,6 @@
                                                 Width="250"
                                                 Height="32"
                                                 BorderBrush="#A9D18E" />
-                                            <ComboBox Name="CmbGender" Width="250">
-                                                <ComboBoxItem Content="Женский" />
-                                                <ComboBoxItem Content="Мужской" />
-                                            </ComboBox>
                                             <ComboBox Name="CmbPost" Width="250" />
                                         </StackPanel>
                                     </StackPanel>

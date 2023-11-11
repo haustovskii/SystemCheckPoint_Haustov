@@ -31,11 +31,11 @@ namespace SystemCheckPoint.Page
         //Сохранение и редактирование данных о сотруднике/стороннем лице
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            //НЕ РАБОТАЕТ(((((
-            if (TbxLastName.Text != null && TbxName.Text != null &&
-                TbxPatronymic.Text != null && DtpDate.SelectedDate != null &&
-                TbxSerriesPass.Text != null && TbxNumberPass.Text != null &&
-                CmbPost.SelectedIndex > -1 && CmbGender.SelectedIndex > -1)
+            //НЕ РАБОТАЕТ, НАДО ВСЕ ЧЕКАЙ(((((
+            if (!string.IsNullOrEmpty(TbxLastName.Text) && !string.IsNullOrEmpty(TbxName.Text) &&
+                !string.IsNullOrEmpty(TbxPatronymic.Text) && DtpDate.SelectedDate != null &&
+                !string.IsNullOrEmpty(TbxSerriesPass.Text) && !string.IsNullOrEmpty(TbxNumberPass.Text) &&
+                CmbPost.SelectedIndex > -1)
             {
                 //Добавление данных
                 if (TbxIDPass == null)
@@ -54,14 +54,13 @@ namespace SystemCheckPoint.Page
                         LastName = TbxLastName.Text,
                         FirstName = TbxName.Text,
                         Patronumic = TbxPatronymic.Text,
-                        Birthday = (DateTime)DtpDate.SelectedDate,
+                        //Birthday = DtpDate.SelectedDate,
                         //Login = TbxLogin.Text,
                         //Password = TbxPaswword.Text,
                         SeriesPassport = int.Parse(TbxSerriesPass.Text),
                         NumberPassport = int.Parse(TbxNumberPass.Text),
                         IDPost = CmbPost.SelectedIndex + 1,
-                        IDPass = IDPass,
-                        IDGender = CmbGender.SelectedIndex
+                        IDPass = IDPass
                     };
                     AppConnect.modelOdb.Employee.Add(employee);
                     AppConnect.modelOdb.SaveChanges();
@@ -84,7 +83,7 @@ namespace SystemCheckPoint.Page
                         LoadData();
                         MessageBox.Show("Данные успешно изменены!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
-                }                
+                }
                 GrdSort.Visibility = Visibility.Visible;
                 StpDataGrid.Visibility = Visibility.Visible;
                 StpAddEditPass.Visibility = Visibility.Collapsed;
@@ -233,7 +232,6 @@ namespace SystemCheckPoint.Page
                     TbxName.Text = EmployeeDb.FirstName;
                     TbxPatronymic.Text = EmployeeDb.Patronumic;
                     DtpDate.SelectedDate = EmployeeDb.Birthday;
-                    CmbGender.SelectedIndex = EmployeeDb.IDGender;
                     CmbPost.SelectedIndex = EmployeeDb.IDPost - 1;
                     TbxSerriesPass.Text = EmployeeDb.SeriesPassport.ToString();
                     TbxNumberPass.Text = EmployeeDb.NumberPassport.ToString();

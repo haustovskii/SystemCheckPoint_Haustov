@@ -18,9 +18,9 @@ namespace SystemCheckPoint.AppData
         public string Name { get; set; }
         public Nullable<int> Weight { get; set; }
         public Nullable<int> Count { get; set; }
-        public Nullable<int> Price { get; set; }
-        public Nullable<int> IDPass { get; set; }
+        public string NumberDocument { get; set; }
+        public Nullable<int> IDAutoTransport { get; set; }
     
-        public virtual Pass Pass { get; set; }
+        public virtual AutoTransport AutoTransport { get; set; }
     }
 }

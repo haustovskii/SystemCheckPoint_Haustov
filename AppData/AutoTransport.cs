@@ -14,6 +14,12 @@ namespace SystemCheckPoint.AppData
     
     public partial class AutoTransport
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public AutoTransport()
+        {
+            this.AccountingMaterialValue = new HashSet<AccountingMaterialValue>();
+        }
+    
         public int ID { get; set; }
         public string Mark { get; set; }
         public string StateNumber { get; set; }
@@ -21,6 +27,8 @@ namespace SystemCheckPoint.AppData
         public string Color { get; set; }
         public Nullable<int> IDPass { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccountingMaterialValue> AccountingMaterialValue { get; set; }
         public virtual Pass Pass { get; set; }
     }
 }

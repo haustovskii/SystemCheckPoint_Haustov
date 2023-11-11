@@ -102,9 +102,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppData\AutoTransportViewModel.cs" />
     <Compile Include="AppData\EmployeeAndPerson.cs" />
-    <Compile Include="Pages\PageAutoSecurity.xaml.cs">
-      <DependentUpon>PageAutoSecurity.xaml</DependentUpon>
+    <Compile Include="Pages\PageAutoData.xaml.cs">
+      <DependentUpon>PageAutoData.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\PageEditPassSecurity.xaml.cs">
       <DependentUpon>PageEditPassSecurity.xaml</DependentUpon>
@@ -115,13 +116,11 @@
     <Compile Include="Pages\PageReportAdmin.xaml.cs">
       <DependentUpon>PageReportAdmin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Report\PeportPassMaterialValue.xaml.cs">
+      <DependentUpon>PeportPassMaterialValue.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Report\ReportPassExternalPerson.xaml.cs">
       <DependentUpon>ReportPassExternalPerson.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TempCode.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TempCode.tt</DependentUpon>
     </Compile>
     <Compile Include="WorkWindow.xaml.cs">
       <DependentUpon>WorkWindow.xaml</DependentUpon>
@@ -166,9 +165,6 @@
     <Compile Include="AppData\ExternalPerson.cs">
       <DependentUpon>CheckPointDb.tt</DependentUpon>
     </Compile>
-    <Compile Include="AppData\Gender.cs">
-      <DependentUpon>CheckPointDb.tt</DependentUpon>
-    </Compile>
     <Compile Include="AppData\InfoArrivalDeparture.cs">
       <DependentUpon>CheckPointDb.tt</DependentUpon>
     </Compile>
@@ -184,9 +180,6 @@
     <Compile Include="AppData\sp_helpdiagrams_Result.cs">
       <DependentUpon>CheckPointDb.tt</DependentUpon>
     </Compile>
-    <Compile Include="AppData\sysdiagrams.cs">
-      <DependentUpon>CheckPointDb.tt</DependentUpon>
-    </Compile>
     <Compile Include="AppData\TypePass.cs">
       <DependentUpon>CheckPointDb.tt</DependentUpon>
     </Compile>
@@ -194,7 +187,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Pages\PageAutoSecurity.xaml">
+    <Page Include="Pages\PageAutoData.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -207,6 +200,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\PageReportAdmin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Report\PeportPassMaterialValue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -281,15 +278,11 @@
     <Resource Include="Images\img_inputdata.png" />
     <Resource Include="Images\report.png" />
     <Resource Include="Images\cecur_data.png" />
-    <Content Include="MessagingToolkit.QRCode.dll" />
+    <Resource Include="Images\doc.png" />
     <Content Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
     <Content Include="Scripts\nugetexample.js" />
-    <Content Include="TempCode.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TempCode.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
