@@ -104,6 +104,9 @@
     </ApplicationDefinition>
     <Compile Include="AppData\AutoTransportViewModel.cs" />
     <Compile Include="AppData\EmployeeAndPerson.cs" />
+    <Compile Include="AppData\sysdiagrams.cs">
+      <DependentUpon>CheckPointDb.tt</DependentUpon>
+    </Compile>
     <Compile Include="Pages\PageAutoData.xaml.cs">
       <DependentUpon>PageAutoData.xaml</DependentUpon>
     </Compile>

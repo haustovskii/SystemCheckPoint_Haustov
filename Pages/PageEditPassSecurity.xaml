@@ -29,8 +29,7 @@
                             Width="15"
                             Height="15"
                             Margin="0,1,25,1"
-                            Fill="#A9D18E"
-                            MouseDown="ElpPozition_MouseDown" />
+                            Fill="#A9D18E" />
                     </Border>
                     <TextBlock Margin="5" Text="Учет мат. ценностей" />
                 </StackPanel>
@@ -209,13 +208,10 @@
                                         </StackPanel>
                                         <StackPanel Orientation="Vertical">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBox PreviewTextInput="TbxStateNumber_PreviewTextInput"  Name="TbxStateNumber" Width="200" />
-                                                <Button
-                                                    Width="32"
-                                                    Margin="5"
-                                                    Background="#EAF4E4"
-                                                    Click="BtnSelectPerson_Click"
-                                                    Content="+" />
+                                                <TextBox
+                                                    Name="TbxStateNumber"
+                                                    Width="250"
+                                                    PreviewTextInput="TbxStateNumber_PreviewTextInput" />
                                             </StackPanel>
                                             <TextBox
                                                 Name="TbxNameMaterial"
@@ -325,5 +321,6 @@
                 </ListView>
             </StackPanel>
         </Border>
+        
     </Grid>
 </Page>

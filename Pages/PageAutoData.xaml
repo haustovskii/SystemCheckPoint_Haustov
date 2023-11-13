@@ -46,94 +46,108 @@
                 <StackPanel Orientation="Horizontal">
                     <Border
                         Name="BrdSelectPerson"
-                        Height="400"
+                        Height="340"
                         Background="White"
                         Style="{StaticResource StyleBrd}"
                         Visibility="Visible">
                         <StackPanel VerticalAlignment="Center">
-                            <Grid Margin="5,0,30,0">
+                            <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="2" />
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="95" />
+                                    <ColumnDefinition Width="170" />
+                                    <ColumnDefinition Width="135" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock
-                                    Grid.Column="0"
-                                    Width="70"
-                                    Margin="23,0,3,0"
+                                    Grid.Column="1"
+                                    Margin="3,0"
                                     Text="Пропуск"
                                     TextAlignment="Center" />
                                 <TextBlock
-                                    Grid.Column="1"
-                                    Width="150"
-                                    Margin="3,0"
+                                    Grid.Column="2"
                                     Text="Марка"
                                     TextAlignment="Center" />
                                 <TextBlock
-                                    Grid.Column="2"
-                                    Width="90"
-                                    Margin="3,0"
+                                    Grid.Column="3"
                                     HorizontalAlignment="Center"
                                     Text="Гос. номер" />
                                 <TextBlock
-                                    Grid.Column="3"
-                                    Width="165"
-                                    Margin="3,0"
+                                    Grid.Column="4"
                                     Text="Серийный номер"
                                     TextAlignment="Center" />
                                 <TextBlock
-                                    Grid.Column="4"
-                                    Width="130"
-                                    Margin="3,0"
+                                    Grid.Column="5"
                                     Text="Цвет"
                                     TextAlignment="Center" />
                             </Grid>
                             <ListView
                                 Name="LsvAuto"
-                                Height="350"
+                                Height="300"
                                 Margin="3,0"
                                 HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
                                 d:ItemsSource="{d:SampleData ItemCount=15}"
                                 BorderThickness="0"
                                 SelectionChanged="LsvAuto_SelectionChanged"
-                                SelectionMode="Single"
-                                Style="{DynamicResource ListViewStyle1}">
+                                SelectionMode="Single">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel
-                                            Margin="-3"
+                                            Margin="0"
                                             HorizontalAlignment="Center"
                                             Orientation="Horizontal">
-                                            <Border BorderThickness="0,0,0,1" Style="{StaticResource StyleBrd}">
+                                            <Border
+                                                Width="632"
+                                                BorderThickness="0,1,0,1"
+                                                Style="{StaticResource StyleBrd}">
                                                 <StackPanel Orientation="Horizontal">
                                                     <StackPanel Margin="3" Orientation="Horizontal">
+                                                        <Border
+                                                            Margin="0,-5"
+                                                            BorderThickness="0.5"
+                                                            Style="{StaticResource StyleBrd}" />
                                                         <TextBlock
                                                             Width="70"
                                                             Margin="3"
-                                                            Text="{StaticResource IDPass}"
-                                                            TextAlignment="Right" />
-                                                        <Border BorderThickness="0.5" Style="{StaticResource StyleBrd}" />
+                                                            Text="{Binding IDPass}" />
+                                                        <Border
+                                                            Margin="0,-5"
+                                                            BorderThickness="0.5"
+                                                            Style="{StaticResource StyleBrd}" />
                                                         <TextBlock
                                                             Width="140"
                                                             Margin="3"
                                                             Text="{Binding Mark}" />
-                                                        <Border BorderThickness="0.5" Style="{StaticResource StyleBrd}" />
+                                                        <Border
+                                                            Margin="0,-5"
+                                                            BorderThickness="0.5"
+                                                            Style="{StaticResource StyleBrd}" />
                                                         <TextBlock
                                                             Width="90"
                                                             Margin="3"
                                                             Text="{Binding StateNumber}" />
-                                                        <Border BorderThickness="0.5" Style="{StaticResource StyleBrd}" />
+                                                        <Border
+                                                            Margin="0,-5"
+                                                            BorderThickness="0.5"
+                                                            Style="{StaticResource StyleBrd}" />
                                                         <TextBlock
                                                             Width="165"
                                                             Margin="3"
                                                             Text="{Binding SeriesNumber}" />
-                                                        <Border BorderThickness="0.5" Style="{StaticResource StyleBrd}" />
+                                                        <Border
+                                                            Margin="0,-5"
+                                                            BorderThickness="0.5"
+                                                            Style="{StaticResource StyleBrd}" />
                                                         <TextBlock
                                                             Width="130"
                                                             Margin="3"
                                                             Text="{Binding Color}" />
+                                                        <Border
+                                                            Margin="0,-5"
+                                                            BorderThickness="0.5"
+                                                            Style="{StaticResource StyleBrd}" />
                                                     </StackPanel>
                                                 </StackPanel>
                                             </Border>

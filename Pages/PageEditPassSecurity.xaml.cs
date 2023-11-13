@@ -17,6 +17,8 @@ namespace SystemCheckPoint.Page
     public partial class PageEditPass : System.Windows.Controls.Page
     {
         int IDExteral;
+        int IDAuto;
+        private bool isClicked = false;
         public PageEditPass()
         {
             InitializeComponent();
@@ -38,7 +40,6 @@ namespace SystemCheckPoint.Page
             AppFrame.FrameMain.Content = null;
 
         }
-        private bool isClicked = false;
         private void ElpPozition_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (!isClicked)
@@ -101,6 +102,7 @@ namespace SystemCheckPoint.Page
         private void TbxSelectPerson_TextChanged(object sender, TextChangedEventArgs e)
         {
             LsvExternalPerson.ItemsSource = AppConnect.modelOdb.ExternalPerson.Where(x =>
+            x.ID.ToString().Contains(TbxSelectPerson.Text) ||
             x.LastName.Contains(TbxSelectPerson.Text) ||
             x.FirstName.Contains(TbxSelectPerson.Text) ||
             x.Patronumic.Contains(TbxSelectPerson.Text)).ToArray();
@@ -182,8 +184,8 @@ namespace SystemCheckPoint.Page
                 if (AutoDb == null)
                     MessageBox.Show("Автотранспорт с таким гос. номером не найден");
                 AccountingMaterialValue materialValue = new AccountingMaterialValue
-                { 
-                    Name = TbxNameMaterial.Text,                    
+                {
+                    Name = TbxNameMaterial.Text,
                     Count = int.Parse(TbxCount.Text),
                     Weight = int.Parse(TbxWeight.Text),
                     IDAutoTransport = AutoDb.ID,
@@ -216,7 +218,7 @@ namespace SystemCheckPoint.Page
                 timer.Start();
             }
             else
-                MessageBox.Show("Данные не были введены", "Ошибка при добавлении данных", MessageBoxButton.OK, MessageBoxImage.Error);            
+                MessageBox.Show("Данные не были введены", "Ошибка при добавлении данных", MessageBoxButton.OK, MessageBoxImage.Error);
             //}
             //catch (Exception ex)
             //{

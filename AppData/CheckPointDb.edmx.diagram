@@ -4,16 +4,17 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="2f87c238a23b495ba51ff859c616cb59" Name="Diagram1" ZoomLevel="114">
-        <EntityTypeShape EntityType="CheckPointDbModel.AccountingMaterialValue" Width="1.5" PointX="7.5" PointY="3.75" />
-        <EntityTypeShape EntityType="CheckPointDbModel.AutoTransport" Width="1.5" PointX="5.25" PointY="3.625" />
-        <EntityTypeShape EntityType="CheckPointDbModel.Departament" Width="1.5" PointX="3.75" PointY="1" />
-        <EntityTypeShape EntityType="CheckPointDbModel.Employee" Width="1.5" PointX="8.25" PointY="7" />
-        <EntityTypeShape EntityType="CheckPointDbModel.ExternalPerson" Width="1.5" PointX="5.25" PointY="11.125" />
-        <EntityTypeShape EntityType="CheckPointDbModel.InfoArrivalDeparture" Width="1.5" PointX="7.5" PointY="11.5" />
-        <EntityTypeShape EntityType="CheckPointDbModel.Pass" Width="1.5" PointX="3" PointY="5.5" />
-        <EntityTypeShape EntityType="CheckPointDbModel.Post" Width="1.5" PointX="6" PointY="0.75" />
-        <EntityTypeShape EntityType="CheckPointDbModel.TypePass" Width="1.5" PointX="0.75" PointY="6" />
+      <Diagram DiagramId="2f87c238a23b495ba51ff859c616cb59" Name="Diagram1" ZoomLevel="114" DisplayType="true">
+        <EntityTypeShape EntityType="CheckPointDbModel.AccountingMaterialValue" Width="1.5" PointX="7.5" PointY="11.375" />
+        <EntityTypeShape EntityType="CheckPointDbModel.AutoTransport" Width="1.5" PointX="5.25" PointY="11.375" />
+        <EntityTypeShape EntityType="CheckPointDbModel.Departament" Width="1.5" PointX="0.75" PointY="2.75" />
+        <EntityTypeShape EntityType="CheckPointDbModel.Employee" Width="1.5" PointX="5.25" PointY="2.75" />
+        <EntityTypeShape EntityType="CheckPointDbModel.ExternalPerson" Width="1.5" PointX="5.25" PointY="7.625" />
+        <EntityTypeShape EntityType="CheckPointDbModel.InfoArrivalDeparture" Width="1.5" PointX="7.5" PointY="8" />
+        <EntityTypeShape EntityType="CheckPointDbModel.Pass" Width="1.5" PointX="3" PointY="5.375" />
+        <EntityTypeShape EntityType="CheckPointDbModel.Post" Width="1.5" PointX="3" PointY="2.625" />
+        <EntityTypeShape EntityType="CheckPointDbModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="CheckPointDbModel.TypePass" Width="1.5" PointX="0.75" PointY="5.75" />
         <AssociationConnector Association="CheckPointDbModel.FK_AccountingMaterialValue_AutoTransport" />
         <AssociationConnector Association="CheckPointDbModel.FK_AutoTransport_Pass" />
         <AssociationConnector Association="CheckPointDbModel.FK_Post_Departament" />

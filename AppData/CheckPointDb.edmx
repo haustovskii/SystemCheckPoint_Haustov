@@ -89,6 +89,16 @@
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="IDDepartament" Type="int" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="TypePass">
           <Key>
             <PropertyRef Name="ID" />
@@ -246,6 +256,7 @@
           <EntitySet Name="InfoArrivalDeparture" EntityType="Self.InfoArrivalDeparture" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pass" EntityType="Self.Pass" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypePass" EntityType="Self.TypePass" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AccountingMaterialValue_AutoTransport" Association="Self.FK_AccountingMaterialValue_AutoTransport">
             <End Role="AutoTransport" EntitySet="AutoTransport" />
@@ -323,6 +334,7 @@
           <EntitySet Name="InfoArrivalDeparture" EntityType="CheckPointDbModel.InfoArrivalDeparture" />
           <EntitySet Name="Pass" EntityType="CheckPointDbModel.Pass" />
           <EntitySet Name="Post" EntityType="CheckPointDbModel.Post" />
+          <EntitySet Name="sysdiagrams" EntityType="CheckPointDbModel.sysdiagrams" />
           <EntitySet Name="TypePass" EntityType="CheckPointDbModel.TypePass" />
           <AssociationSet Name="FK_AccountingMaterialValue_AutoTransport" Association="CheckPointDbModel.FK_AccountingMaterialValue_AutoTransport">
             <End Role="AutoTransport" EntitySet="AutoTransport" />
@@ -466,6 +478,16 @@
           <Property Name="IDDepartament" Type="Int32" />
           <NavigationProperty Name="Departament" Relationship="CheckPointDbModel.FK_Post_Departament" FromRole="Post" ToRole="Departament" />
           <NavigationProperty Name="Employee" Relationship="CheckPointDbModel.FK_Employee_Post" FromRole="Post" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="TypePass">
           <Key>
@@ -704,6 +726,17 @@
                 <ScalarProperty Name="IDDepartament" ColumnName="IDDepartament" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="CheckPointDbModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
