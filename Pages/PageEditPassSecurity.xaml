@@ -11,6 +11,7 @@
     <Grid>
         <Border Background="White">
             <Grid>
+                <!--  Переключатель карточек  -->
                 <StackPanel
                     Margin="20"
                     VerticalAlignment="Top"
@@ -321,6 +322,6 @@
                 </ListView>
             </StackPanel>
         </Border>
-        
+
     </Grid>
 </Page>

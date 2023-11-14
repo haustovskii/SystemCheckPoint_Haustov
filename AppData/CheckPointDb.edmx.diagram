@@ -10,7 +10,7 @@
         <EntityTypeShape EntityType="CheckPointDbModel.Departament" Width="1.5" PointX="0.75" PointY="2.75" />
         <EntityTypeShape EntityType="CheckPointDbModel.Employee" Width="1.5" PointX="5.25" PointY="2.75" />
         <EntityTypeShape EntityType="CheckPointDbModel.ExternalPerson" Width="1.5" PointX="5.25" PointY="7.625" />
-        <EntityTypeShape EntityType="CheckPointDbModel.InfoArrivalDeparture" Width="1.5" PointX="7.5" PointY="8" />
+        <EntityTypeShape EntityType="CheckPointDbModel.InfoArrivalDeparture" Width="2" PointX="7.5" PointY="8" />
         <EntityTypeShape EntityType="CheckPointDbModel.Pass" Width="1.5" PointX="3" PointY="5.375" />
         <EntityTypeShape EntityType="CheckPointDbModel.Post" Width="1.5" PointX="3" PointY="2.625" />
         <EntityTypeShape EntityType="CheckPointDbModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" />

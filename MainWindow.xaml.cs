@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using SystemCheckPoint.AppData;
 
 namespace SystemCheckPoint
@@ -40,6 +41,34 @@ namespace SystemCheckPoint
             catch (Exception ex)
             {
                 MessageBox.Show("Произошла критическая ошибка приложения" + ex.ToString(), "Критическая ошибка приложения", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.WidthChanged)
+            {
+                Wnd.Height = e.NewSize.Width / (Wnd.MinWidth / Wnd.MinHeight);
+            }
+            else if (e.HeightChanged)
+            {
+                Wnd.Width = e.NewSize.Height * (Wnd.MinWidth / Wnd.MinHeight);
+            }
+        }
+
+        private void ImgMaxMinSize_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (WindowState != WindowState.Maximized)
+            {
+                ImgMax.Visibility = Visibility.Collapsed;
+                ImgMin.Visibility = Visibility.Visible;
+                WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                ImgMax.Visibility = Visibility.Visible;
+                ImgMin.Visibility = Visibility.Collapsed;
+                WindowState = WindowState.Normal;
             }
         }
     }

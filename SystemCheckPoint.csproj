@@ -122,6 +122,9 @@
     <Compile Include="Report\PeportPassMaterialValue.xaml.cs">
       <DependentUpon>PeportPassMaterialValue.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Report\ReportInfoArrivalDeparture.xaml.cs">
+      <DependentUpon>ReportInfoArrivalDeparture.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Report\ReportPassExternalPerson.xaml.cs">
       <DependentUpon>ReportPassExternalPerson.xaml</DependentUpon>
     </Compile>
@@ -210,6 +213,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Report\ReportInfoArrivalDeparture.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Report\ReportPassExternalPerson.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -282,6 +289,8 @@
     <Resource Include="Images\report.png" />
     <Resource Include="Images\cecur_data.png" />
     <Resource Include="Images\doc.png" />
+    <Resource Include="Images\maximize.png" />
+    <Resource Include="Images\minimize.png" />
     <Content Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />

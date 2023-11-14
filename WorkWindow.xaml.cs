@@ -31,6 +31,33 @@ namespace SystemCheckPoint
                 BrdReportMenu.Visibility = Visibility.Collapsed;
             }
         }
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.WidthChanged)
+            {
+                Wnd.Height = e.NewSize.Width / (Wnd.MinWidth / Wnd.MinHeight);
+            }
+            else if (e.HeightChanged)
+            {
+                Wnd.Width = e.NewSize.Height * (Wnd.MinWidth / Wnd.MinHeight);
+            }
+        }
+
+        private void ImgMaxMinSize_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (WindowState != WindowState.Maximized)
+            {
+                ImgMax.Visibility = Visibility.Collapsed;
+                ImgMin.Visibility = Visibility.Visible;
+                WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                ImgMax.Visibility = Visibility.Visible;
+                ImgMin.Visibility = Visibility.Collapsed;
+                WindowState = WindowState.Normal;
+            }
+        }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             if (userDb == 1)
@@ -102,6 +129,5 @@ namespace SystemCheckPoint
             mainWindow.Show();
             this.Close();
         }
-
     }
 }

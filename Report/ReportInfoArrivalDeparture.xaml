@@ -1,0 +1,104 @@
+﻿<Window
+    x:Class="SystemCheckPoint.Report.ReportInfoArrivalDeparture"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SystemCheckPoint.Report"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Отчет о посещении"
+    Width="700"
+    Height="auto"
+    FontSize="20"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <Style TargetType="Border">
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Margin" Value="-1,0,0,0" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderThickness" Value="0.9" />
+            <Setter Property="BorderBrush" Value="Black" />
+        </Style>
+    </Window.Resources>
+    <Grid Name="GrdMain" Margin="10">
+        <TextBlock MouseDown="TextBlock_MouseDown" />
+        <StackPanel HorizontalAlignment="Center">
+            <StackPanel
+                Name="StpButton"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal"
+                Visibility="Visible">
+                <Button
+                    x:Name="BtnPrint"
+                    Margin="7,0"
+                    Click="BtnPrint_Click"
+                    Content="Печать"
+                    Style="{StaticResource StyleBtnDefault}" />
+                <Button
+                    x:Name="BtnBack"
+                    Margin="7,0"
+                    Click="BtnBack_Click"
+                    Style="{StaticResource StyleBtnDefault}" />
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center">
+                <TextBlock
+                    Margin="0"
+                    FontSize="24"
+                    FontWeight="Bold"
+                    Text="Учет"
+                    TextAlignment="Center" />
+                <TextBlock
+                    Margin="0"
+                    FontSize="22"
+                    FontWeight="SemiBold"
+                    Text="прихода, ухода, времени посещения"
+                    TextAlignment="Center" />
+                <TextBlock
+                    x:Name="TblTimeReport"
+                    Margin="0"
+                    FontSize="18"
+                    FontWeight="SemiBold"
+                    Text="01.01.2000 00:00"
+                    TextAlignment="Center" />
+            </StackPanel>
+            <Grid HorizontalAlignment="Center">
+                <DataGrid
+                    Name="DtgData"
+                    d:ItemsSource="{d:SampleData ItemCount=15}"
+                    AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Width="50"
+                            Binding="{Binding ID}"
+                            Header="№" />
+                        <DataGridTextColumn
+                            Width="250"
+                            Binding="{Binding FIO}"
+                            Header="ФИО" />
+                        <DataGridTextColumn
+                            Width="120"
+                            Binding="{Binding TimeArrival}"
+                            Header="Приход" />
+                        <DataGridTextColumn
+                            Width="120"
+                            Binding="{Binding TimeDeparture}"
+                            Header="Уход" />
+                        <DataGridTextColumn
+                            Width="120"
+                            Binding="{Binding TotalTime}"
+                            Header="Время" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -17,7 +17,6 @@ namespace SystemCheckPoint.Page
     public partial class PageEditPass : System.Windows.Controls.Page
     {
         int IDExteral;
-        int IDAuto;
         private bool isClicked = false;
         public PageEditPass()
         {

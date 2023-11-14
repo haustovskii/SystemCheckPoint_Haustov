@@ -5,99 +5,118 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:SystemCheckPoint"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Name="Wnd"
     Title="Контрольно-пропускной пункт"
-    MinWidth="800"
-    MinHeight="500"
-    MaxWidth="800"
-    MaxHeight="500"
+    Width="900"
+    MinWidth="900"
+    MinHeight="506.25"
     FontSize="20"
     Icon="/Images/logo_new.ico"
-    ResizeMode="NoResize"
+    ResizeMode="CanResizeWithGrip"
+    SizeChanged="Window_SizeChanged"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d">
-    <Grid Background="WhiteSmoke">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="100" MouseDown="Grid_MouseDown" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" MouseDown="Grid_MouseDown">
-            <TextBlock Background="Transparent" MouseDown="Grid_MouseDown" />
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <Image Margin="10" Source="/Images/logo_new.png" />
-                <StackPanel Margin="0,10" MouseDown="Grid_MouseDown">
-                    <TextBlock Margin="10,0" Text="ИС Контрольно-пропускной пункт" />
-                    <TextBlock
-                        Margin="10"
-                        FontSize="16"
-                        Text="Авторизация" />
-                </StackPanel>
-            </StackPanel>
-            <StackPanel
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                Orientation="Horizontal">
-                <Border Style="{StaticResource BrdWindow}">
-                    <Image
-                        Name="ImgPollUp"
-                        MouseDown="ImgPollUp_MouseDown"
-                        Source="Images/minsize.png"
-                        Style="{StaticResource ImgWindow}" />
-                </Border>
-                <Border Style="{StaticResource BrdWindow2}">
-                    <Image
-                        Name="ImgClose"
-                        MouseDown="ImgClose_MouseDown"
-                        Source="Images/close.png"
-                        Style="{StaticResource ImgWindow}" />
-                </Border>
-            </StackPanel>
-        </Grid>
-        <Grid Grid.Row="1">
-            <StackPanel Name="StnLogin">
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel>
+    <Window.Resources />
+    <Viewbox>
+        <Grid Width="{Binding ElementName=Wnd, Path=MinWidth}" Background="WhiteSmoke">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100" MouseDown="Grid_MouseDown" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" MouseDown="Grid_MouseDown">
+                <TextBlock Background="Transparent" MouseDown="Grid_MouseDown" />
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <Image Margin="10" Source="/Images/logo_new.png" />
+                    <StackPanel Margin="0,10" MouseDown="Grid_MouseDown">
+                        <TextBlock Margin="10,0" Text="ИС Контрольно-пропускной пункт" />
                         <TextBlock
-                            Margin="0,10"
-                            HorizontalAlignment="Right"
-                            Text="Логин:" />
-                        <TextBlock
-                            Margin="0,10"
-                            HorizontalAlignment="Right"
-                            Text="Пароль:" />
-                    </StackPanel>
-                    <StackPanel>
-                        <TextBox
-                            Name="TbxLogin"
-                            Width="190"
-                            Text="2" />
-                        <PasswordBox
-                            Name="PsbPassword"
-                            Width="190"
                             Margin="10"
-                            BorderBrush="#A9D18E"
-                            Password="2"
-                            PasswordChar="*" />
+                            FontSize="16"
+                            Text="Авторизация" />
                     </StackPanel>
                 </StackPanel>
-                <Button
-                    Name="BtnEnter"
-                    Width="100"
-                    Margin="25"
-                    HorizontalAlignment="Center"
-                    Background="White"
-                    Click="BtnEnter_Click"
-                    Content="Войти" />
-            </StackPanel>
+                <StackPanel
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+                    <Border Style="{StaticResource BrdWindow}">
+                        <Image
+                            Name="ImgPollUp"
+                            MouseDown="ImgPollUp_MouseDown"
+                            Source="Images/minsize.png"
+                            Style="{StaticResource ImgWindow}" />
+                    </Border>
+                    <Border Style="{StaticResource BrdWindow}">
+                        <Grid>
+                            <Image
+                                Name="ImgMax"
+                                MouseDown="ImgMaxMinSize_MouseDown"
+                                Source="Images/maximize.png"
+                                Style="{StaticResource ImgWindow}" />
+                            <Image
+                                Name="ImgMin"
+                                MouseDown="ImgMaxMinSize_MouseDown"
+                                Source="Images/minimize.png"
+                                Style="{StaticResource ImgWindow}"
+                                Visibility="Collapsed" />
+                        </Grid>
+                    </Border>
+                    <Border Style="{StaticResource BrdWindow2}">
+                        <Image
+                            Name="ImgClose"
+                            MouseDown="ImgClose_MouseDown"
+                            Source="Images/close.png"
+                            Style="{StaticResource ImgWindow}" />
+                    </Border>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1">
+                <StackPanel Name="StnLogin">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel>
+                            <TextBlock
+                                Margin="0,10"
+                                HorizontalAlignment="Right"
+                                Text="Логин:" />
+                            <TextBlock
+                                Margin="0,10"
+                                HorizontalAlignment="Right"
+                                Text="Пароль:" />
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBox
+                                Name="TbxLogin"
+                                Width="190"
+                                Text="2" />
+                            <PasswordBox
+                                Name="PsbPassword"
+                                Width="190"
+                                Margin="10"
+                                BorderBrush="#A9D18E"
+                                Password="2"
+                                PasswordChar="*" />
+                        </StackPanel>
+                    </StackPanel>
+                    <Button
+                        Name="BtnEnter"
+                        Width="100"
+                        Margin="25"
+                        HorizontalAlignment="Center"
+                        Background="White"
+                        Click="BtnEnter_Click"
+                        Content="Войти" />
+                </StackPanel>
+            </Grid>
+            <Image
+                Grid.Row="1"
+                Width="400"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Panel.ZIndex="-1"
+                Opacity="0.1"
+                Source="/Images/img_enter.png"
+                Visibility="Visible" />
         </Grid>
-        <Image
-            Grid.Row="1"
-            Width="400"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Center"
-            Panel.ZIndex="-1"
-            Opacity="0.1"
-            Source="/Images/img_enter.png"
-            Visibility="Visible" />
-    </Grid>
+    </Viewbox>
 </Window>
