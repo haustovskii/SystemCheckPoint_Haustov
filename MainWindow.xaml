@@ -88,13 +88,13 @@
                             <TextBox
                                 Name="TbxLogin"
                                 Width="190"
-                                Text="2" />
+                                Text="haus-tov" />
                             <PasswordBox
                                 Name="PsbPassword"
                                 Width="190"
                                 Margin="10"
                                 BorderBrush="#A9D18E"
-                                Password="2"
+                                Password="irpngm62"
                                 PasswordChar="*" />
                         </StackPanel>
                     </StackPanel>

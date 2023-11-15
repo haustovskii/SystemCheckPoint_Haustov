@@ -30,7 +30,7 @@
         </Style>
     </Window.Resources>
     <Grid Name="GrdMain" Margin="10">
-        <TextBlock MouseDown="TextBlock_MouseDown" />
+        <TextBlock />
         <StackPanel HorizontalAlignment="Center">
             <StackPanel
                 Name="StpButton"

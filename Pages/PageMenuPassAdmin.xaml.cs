@@ -155,8 +155,8 @@ namespace SystemCheckPoint.Page
                     else
                         filteredList = filteredList.OrderBy(x => x.DateOfFormation).ToList();
             }
-            if (DgrData.ItemsSource != null)
-                DgrData.ItemsSource = filteredList;
+            if (LsvData.ItemsSource != null)
+                LsvData.ItemsSource = filteredList;
 
         }
 
@@ -206,7 +206,7 @@ namespace SystemCheckPoint.Page
                 var combinedQuery = queryEmployee.Union(queryExternalPerson);
                 list = combinedQuery.ToList();
             }
-            DgrData.ItemsSource = list.ToArray();
+            LsvData.ItemsSource = list.ToArray();
         }
         //Поиск в автоматическом заполнении
         private void TbxSelectEmployee_TextChanged(object sender, TextChangedEventArgs e)
@@ -265,12 +265,12 @@ namespace SystemCheckPoint.Page
 
         private void BtnDeletePass_Click(object sender, RoutedEventArgs e)
         {
-            if (DgrData.SelectedItem != null)
+            if (LsvData.SelectedItem != null)
             {
                 MessageBoxResult messageBoxResult = MessageBox.Show("Удалить эту строку?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
-                    EmployeeAndPerson selectedPerson = (EmployeeAndPerson)DgrData.SelectedItem;
+                    EmployeeAndPerson selectedPerson = (EmployeeAndPerson)LsvData.SelectedItem;
                     if (selectedPerson.Type == "Сотрудник")
                         AppConnect.modelOdb.Employee.Remove(AppConnect.modelOdb.Employee.FirstOrDefault(x => x.ID == selectedPerson.ID));
                     else
@@ -280,6 +280,11 @@ namespace SystemCheckPoint.Page
                     MessageBox.Show("Данные успешно удалены!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
+        }
+
+        private void LsvData_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

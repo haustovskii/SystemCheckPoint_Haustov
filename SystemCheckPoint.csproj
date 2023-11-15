@@ -102,7 +102,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AppData\AutoTransportViewModel.cs" />
     <Compile Include="AppData\EmployeeAndPerson.cs" />
     <Compile Include="AppData\sysdiagrams.cs">
       <DependentUpon>CheckPointDb.tt</DependentUpon>
