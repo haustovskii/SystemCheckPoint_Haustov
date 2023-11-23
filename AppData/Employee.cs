@@ -23,6 +23,7 @@ namespace SystemCheckPoint.AppData
         public System.DateTime Birthday { get; set; }
         public int SeriesPassport { get; set; }
         public int NumberPassport { get; set; }
+        public byte[] ImagePath { get; set; }
         public int IDPost { get; set; }
         public int IDPass { get; set; }
     

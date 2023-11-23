@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace SystemCheckPoint.AppData
 {
-    internal class AppConnect
+    public class AppConnect
     {
-        public static CheckPointDbEntities modelOdb = new CheckPointDbEntities();
+        public static CheckPointDbEntities1 modelOdb = new CheckPointDbEntities1();
     }
 }

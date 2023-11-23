@@ -20,6 +20,7 @@ namespace SystemCheckPoint.Report
         readonly string time;
         public ReportPassExternalPerson(int IDExternalPerson, int IDPass, string Time)
         {
+            AppConnect.modelOdb = new CheckPointDbEntities1();
             InitializeComponent();
             TblTimeReport.Text = Time;
             var extPerson = AppConnect.modelOdb.ExternalPerson.FirstOrDefault(x => x.ID == IDExternalPerson);
@@ -28,7 +29,7 @@ namespace SystemCheckPoint.Report
                 TblLastName.Text = extPerson.LastName;
                 TblName.Text = extPerson.FirstName;
                 TblPatronymic.Text = extPerson.Patronumic;
-                TblBirthday.Text = extPerson.Birthday.ToString().Substring(0,10);
+                TblBirthday.Text = extPerson.Birthday.ToString().Substring(0, 10);
                 TblSeries.Text = extPerson.SeriesPassport.ToString();
                 TblNumber.Text = extPerson.NumberPassport.ToString();
             }
@@ -39,9 +40,7 @@ namespace SystemCheckPoint.Report
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
-            {
                 this.DragMove();
-            }
         }
         private void GenerateQR(int IDPass)
         {
@@ -51,7 +50,7 @@ namespace SystemCheckPoint.Report
         }
 
         // Метод для преобразования Bitmap в ImageSource
-        private ImageSource BitmapToImageSource(Bitmap bitmap)
+        public ImageSource BitmapToImageSource(Bitmap bitmap)
         {
             var memoryStream = new MemoryStream();
             bitmap.Save(memoryStream, ImageFormat.Bmp); // Можно выбрать другой формат, если нужно

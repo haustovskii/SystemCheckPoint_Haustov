@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using SystemCheckPoint.AppData;
 
 namespace SystemCheckPoint.Report
 {
@@ -8,9 +11,19 @@ namespace SystemCheckPoint.Report
     /// </summary>
     public partial class ReportInfoArrivalDeparture : Window
     {
-        public ReportInfoArrivalDeparture()
+        public ReportInfoArrivalDeparture(bool isEmployee)
         {
             InitializeComponent();
+            TblTimeReport.Text = DateTime.Now.ToString();
+            if (isEmployee)
+            {
+                DtgData.ItemsSource = AppConnect.modelOdb.InfoArrivalDeparture.Where(x => x.IDEmployee != null).ToList();
+
+            }
+            else
+            {
+                DtgData.ItemsSource = AppConnect.modelOdb.InfoArrivalDeparture.Where(x => x.IDExternalPerson != null).ToList();
+            }
         }
 
         private void BtnPrint_Click(object sender, RoutedEventArgs e)
@@ -28,6 +41,11 @@ namespace SystemCheckPoint.Report
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void DtgData_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            e.Row.Header = (e.Row.GetIndex() + 1).ToString();
         }
     }
 }

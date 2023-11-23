@@ -22,18 +22,13 @@
                 <Grid Grid.Row="0">
                     <Grid Name="GrdSort" HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
-                            <ComboBox Name="CmbViewType" SelectionChanged="CmbFilter_SelectionChanged">
-                                <ComboBoxItem Content="Отобразить всех" />
-                                <ComboBoxItem Content="Только сотрудников" />
-                                <ComboBoxItem Content="Только сторонних лиц" />
-                            </ComboBox>
                             <ComboBox Name="CmbFilter" SelectionChanged="CmbFilter_SelectionChanged">
-                                <ComboBoxItem Content="По фамилии" />
-                                <ComboBoxItem Content="По дате рождения" />
-                                <ComboBoxItem Content="По № пропуска" />
-                                <ComboBoxItem Content="По дате добавления" />
+                                <ComboBoxItem Content="По фамилии" Tag="LastName" />
+                                <ComboBoxItem Content="По дате рождения" Tag="Birthday" />
+                                <ComboBoxItem Content="По № пропуска" Tag="LastName" />
+                                <ComboBoxItem Content="По дате добавления" Tag="LastName" />
                             </ComboBox>
-                            <ComboBox Name="CmbSort" SelectionChanged="CmbFilter_SelectionChanged">
+                            <ComboBox Name="CmbSort" SelectionChanged="CmbSort_SelectionChanged">
                                 <ComboBoxItem Content="По возрастанию" />
                                 <ComboBoxItem Content="По убыванию" />
                             </ComboBox>
@@ -49,6 +44,13 @@
                                     HorizontalAlignment="Right"
                                     Source="/Images/find.png" />
                             </Grid>
+                            <Button
+                                Name="BtnOtherPass"
+                                Width="170"
+                                Margin="10"
+                                Click="BtnOtherPass_Click"
+                                Content="Другие пропуски"
+                                Style="{StaticResource StyleBtnDefault}" />
                         </StackPanel>
                     </Grid>
                     <Button
@@ -57,161 +59,65 @@
                         Style="{StaticResource StyleBtnDefault}"
                         Visibility="Collapsed" />
                 </Grid>
-                <!--  Таблица с данными людей и пропусков (Нужно доделать)  -->
                 <StackPanel
                     Name="StpDataGrid"
                     Grid.Row="1"
                     Visibility="Visible">
                     <StackPanel Margin="10" VerticalAlignment="Center">
-                        <Grid Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="10" />
-                                <ColumnDefinition Width="80" />
-                                <ColumnDefinition Width="80" />
-                                <ColumnDefinition Width="145" />
-                                <ColumnDefinition Width="120" />
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="135" />
-                                <ColumnDefinition Width="135" />
-                                <ColumnDefinition Width="135" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock
-                                Grid.Column="1"
-                                Margin="3,0"
-                                Text="№"
-                                TextAlignment="Center" />
-                            <TextBlock
-                                Grid.Column="2"
-                                Text="Тип"
-                                TextAlignment="Center" />
-                            <TextBlock
-                                Grid.Column="3"
-                                Text="Фамилия"
-                                TextAlignment="Center" />
-                            <TextBlock
-                                Grid.Column="4"
-                                HorizontalAlignment="Center"
-                                Text="Имя" />
-                            <TextBlock
-                                Grid.Column="5"
-                                Text="Отчество"
-                                TextAlignment="Center" />
-                            <TextBlock
-                                Grid.Column="6"
-                                Text="День рождения"
-                                TextAlignment="Center" />
-                        </Grid>
-                        <ListView
-                            Name="LsvData"
-                            Width="1037"
-                            Height="300"
-                            Margin="3,0"
+                        <DataGrid
+                            Name="DgrData"
+                            Grid.Row="1"
+                            Height="450"
                             HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            HorizontalContentAlignment="Left"
-                            d:ItemsSource="{d:SampleData ItemCount=15}"
-                            BorderThickness="0"
-                            SelectionChanged="LsvEmployee_SelectionChanged"
+                            d:ItemsSource="{d:SampleData ItemCount=10}"
+                            AutoGenerateColumns="False"
+                            Background="White"
+                            CanUserDeleteRows="False"
+                            IsReadOnly="True"
+                            LoadingRow="DgrData_LoadingRow"
                             SelectionMode="Single">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                                        <Border
-                                            Width="1008"
-                                            BorderThickness="0,1,0,1"
-                                            Style="{StaticResource StyleBrd}">
-                                            <StackPanel Margin="3" Orientation="Horizontal">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Border
-                                                        Margin="0,-4"
-                                                        BorderThickness="0.5"
-                                                        Style="{StaticResource StyleBrd}" />
-                                                    <TextBlock
-                                                        Width="70"
-                                                        Margin="3"
-                                                        Text="{Binding ID}" />
-                                                    <Border
-                                                        Margin="0,-4"
-                                                        BorderThickness="0.5"
-                                                        Style="{StaticResource StyleBrd}" />
-                                                    <TextBlock
-                                                        Width="70"
-                                                        Margin="3"
-                                                        Text="{Binding Type}" />
-                                                    <Border
-                                                        Margin="0,-4"
-                                                        BorderThickness="0.5"
-                                                        Style="{StaticResource StyleBrd}" />
-                                                    <TextBlock
-                                                        Width="140"
-                                                        Margin="3"
-                                                        Text="{Binding LastName}" />
-                                                    <Border
-                                                        Margin="0,-4"
-                                                        BorderThickness="0.5"
-                                                        Style="{StaticResource StyleBrd}" />
-                                                    <TextBlock
-                                                        Width="110"
-                                                        Margin="3"
-                                                        Text="{Binding Name}" />
-                                                    <Border
-                                                        Margin="0,-4"
-                                                        BorderThickness="0.5"
-                                                        Style="{StaticResource StyleBrd}" />
-                                                    <TextBlock
-                                                        Width="150"
-                                                        Margin="3"
-                                                        Text="{Binding Patronymic}" />
-                                                    <Border
-                                                        Margin="0,-4"
-                                                        BorderThickness="0.5"
-                                                        Style="{StaticResource StyleBrd}" />
-                                                    <TextBlock
-                                                        Width="130"
-                                                        Margin="3"
-                                                        Text="{Binding Birthday}" />
-                                                    <Border
-                                                        Margin="0,-4"
-                                                        BorderThickness="0.5"
-                                                        Style="{StaticResource StyleBrd}" />
-                                                    <TextBlock
-                                                        Width="130"
-                                                        Margin="3"
-                                                        Text="{Binding NumberPass}" />
-                                                    <Border
-                                                        Margin="0,-4"
-                                                        BorderThickness="0.5"
-                                                        Style="{StaticResource StyleBrd}" />
-                                                    <TextBox
-                                                        Width="130"
-                                                        Margin="3,-3,3,0"
-                                                        Padding="0"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        BorderThickness="0"
-                                                        IsReadOnly="True"
-                                                        MaxLength="10"
-                                                        Text="{Binding DateOfFormation}" />
-                                                    <Border
-                                                        Margin="0,-4"
-                                                        BorderThickness="0.5"
-                                                        Style="{StaticResource StyleBrd}" />
-                                                </StackPanel>
-                                            </StackPanel>
-                                        </Border>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn
+                                    Width="120"
+                                    Binding="{Binding LastName}"
+                                    Header="Фамилия" />
+                                <DataGridTextColumn
+                                    Width="120"
+                                    Binding="{Binding FirstName}"
+                                    Header="Имя" />
+                                <DataGridTextColumn
+                                    Width="150"
+                                    Binding="{Binding Patronumic}"
+                                    Header="Отчество" />
+                                <DataGridTextColumn
+                                    Width="140"
+                                    Binding="{Binding Birthday}"
+                                    Header="Дата рождения" />
+                                <DataGridTextColumn
+                                    Width="100"
+                                    Binding="{Binding Pass.ID}"
+                                    Header="Пропуск" />
+                                <DataGridTextColumn
+                                    Width="60"
+                                    Binding="{Binding SeriesPassport}"
+                                    Header="Серия" />
+                                <DataGridTextColumn
+                                    Width="80"
+                                    Binding="{Binding NumberPassport}"
+                                    Header="Номер" />
+                                <DataGridTextColumn
+                                    Width="150"
+                                    Binding="{Binding Login}"
+                                    Header="Логин" />
+                                <DataGridTextColumn
+                                    Width="150"
+                                    Binding="{Binding Password}"
+                                    Header="Пароль" />
+
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </StackPanel>
                     <Grid>
-                        <TextBlock
-                            Width="160"
-                            Margin="10,5"
-                            HorizontalAlignment="Left"
-                            FontSize="14"
-                            Text="*СТ - Сотрудник        *СТЛ - Стороннее лицо"
-                            TextWrapping="Wrap" />
                         <StackPanel Grid.Row="1" Orientation="Horizontal">
                             <StackPanel Orientation="Horizontal">
                                 <Button
@@ -322,8 +228,10 @@
                                         Text="Фото сотрудника"
                                         TextAlignment="Center" />
                                     <Button
+                                        Name="BtnAddImage"
                                         Width="160"
                                         Background="#EAF4E4"
+                                        Click="BtnAddImage_Click"
                                         Content="Загрузить фото" />
                                 </StackPanel>
                             </StackPanel>

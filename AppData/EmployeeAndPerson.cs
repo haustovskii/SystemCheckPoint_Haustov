@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SystemCheckPoint.AppData
 {
@@ -18,5 +12,6 @@ namespace SystemCheckPoint.AppData
         public int NumberPass { get; set; }
         public DateTime DateOfFormation { get; set; }
         public string Type { get; set; }
+        public int NumberRow { get; set; }
     }
 }

@@ -18,24 +18,48 @@
         </Style>
     </Page.Resources>
     <Grid Background="White">
-        <Grid
+        <StackPanel
             Margin="130,10"
             HorizontalAlignment="Right"
-            VerticalAlignment="Top">
-            <TextBox
-                Name="TbxFind"
-                Width="180"
-                Height="32"
-                Padding="0,0,30,0"
-                VerticalContentAlignment="Center"
-                BorderBrush="#A9D18E"
-                BorderThickness="1"
-                TextChanged="TbxFind_TextChanged" />
-            <Image
-                Height="30"
-                Margin="150,0,0,0"
-                Source="/Images/find.png" />
-        </Grid>
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+            <StackPanel
+                Margin="5"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="3"
+                    HorizontalAlignment="Right"
+                    Text="Новые данные"
+                    TextAlignment="Center" />
+                <Button
+                    Name="BtnCheckAutoOrg"
+                    Width="20"
+                    Height="20"
+                    Margin="3"
+                    HorizontalAlignment="Center"
+                    Background="#EAF4E4"
+                    BorderBrush="#A9D18E"
+                    BorderThickness="1"
+                    Click="BtnCheckAutoOrg_Click" />
+            </StackPanel>
+            <Grid>
+                <TextBox
+                    Name="TbxFind"
+                    Width="180"
+                    Height="32"
+                    Padding="0,0,30,0"
+                    HorizontalAlignment="Right"
+                    VerticalContentAlignment="Center"
+                    BorderBrush="#A9D18E"
+                    BorderThickness="1"
+                    TextChanged="TbxFind_TextChanged" />
+                <Image
+                    Height="30"
+                    Margin="150,0,0,0"
+                    Source="/Images/find.png" />
+            </Grid>
+        </StackPanel>
         <StackPanel
             Name="StpAddEditPass"
             Grid.Row="1"
@@ -162,7 +186,7 @@
                         Margin="5"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Visibility="Collapsed">
+                        Visibility="Visible">
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Orientation="Vertical">
                                 <GroupBox
@@ -197,21 +221,36 @@
                                                         Margin="5,13"
                                                         HorizontalAlignment="Right"
                                                         Text="Цвет: " />
+
                                                 </StackPanel>
                                                 <StackPanel Orientation="Vertical">
-                                                    <TextBox Name="TbxIDPassAuto" Width="250" />
-                                                    <TextBox Name="TbxMark" Width="250" />
+                                                    <TextBox
+                                                        Name="TbxIDPassAuto"
+                                                        Width="250"
+                                                        PreviewTextInput="Number_PreviewTextInput"
+                                                        TextChanged="AreFieldsChanged_TextChanged" />
+                                                    <TextBox
+                                                        Name="TbxMark"
+                                                        Width="250"
+                                                        PreviewTextInput="Text_PreviewTextInput"
+                                                        TextChanged="AreFieldsChanged_TextChanged" />
                                                     <TextBox
                                                         Name="TbxStateNumber"
                                                         Width="250"
-                                                        MaxLength="6" />
+                                                        MaxLength="6"
+                                                        PreviewTextInput="TbxStateNumber_PreviewTextInput"
+                                                        TextChanged="AreFieldsChanged_TextChanged" />
                                                     <TextBox
                                                         Name="TbxSeriesNumber"
                                                         Width="250"
-                                                        MaxLength="17" />
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBox Name="TbxColor" Width="250" />
-                                                    </StackPanel>
+                                                        MaxLength="17"
+                                                        PreviewTextInput="TbxSeriesNumber_PreviewTextInput"
+                                                        TextChanged="AreFieldsChanged_TextChanged" />
+                                                    <TextBox
+                                                        Name="TbxColor"
+                                                        Width="250"
+                                                        PreviewTextInput="Text_PreviewTextInput"
+                                                        TextChanged="AreFieldsChanged_TextChanged" />
                                                 </StackPanel>
                                             </StackPanel>
                                         </StackPanel>
@@ -229,7 +268,8 @@
                             BorderBrush="#A9D18E"
                             BorderThickness="1"
                             Click="BtnSave_Click"
-                            Content="Сохранить" />
+                            Content="Сохранить"
+                            IsEnabled="False" />
                     </StackPanel>
                 </StackPanel>
             </Grid>

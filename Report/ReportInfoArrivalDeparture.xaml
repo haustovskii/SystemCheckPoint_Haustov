@@ -6,7 +6,8 @@
     xmlns:local="clr-namespace:SystemCheckPoint.Report"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Отчет о посещении"
-    Width="700"
+    Width="900"
+    MinHeight="300"
     Height="auto"
     FontSize="20"
     ResizeMode="NoResize"
@@ -73,17 +74,22 @@
             <Grid HorizontalAlignment="Center">
                 <DataGrid
                     Name="DtgData"
-                    d:ItemsSource="{d:SampleData ItemCount=15}"
-                    AutoGenerateColumns="False">
+                    d:ItemsSource="{d:SampleData ItemCount=10}"
+                    AutoGenerateColumns="False"
+                    LoadingRow="DtgData_LoadingRow">
                     <DataGrid.Columns>
                         <DataGridTextColumn
-                            Width="50"
-                            Binding="{Binding ID}"
-                            Header="№" />
+                            Width="150"
+                            Binding="{Binding LastName}"
+                            Header="Фамилия" />
                         <DataGridTextColumn
-                            Width="250"
-                            Binding="{Binding FIO}"
-                            Header="ФИО" />
+                            Width="150"
+                            Binding="{Binding Name}"
+                            Header="Имя" />
+                        <DataGridTextColumn
+                            Width="150"
+                            Binding="{Binding Patronumic}"
+                            Header="Отчество" />
                         <DataGridTextColumn
                             Width="120"
                             Binding="{Binding TimeArrival}"

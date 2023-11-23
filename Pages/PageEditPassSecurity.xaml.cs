@@ -20,6 +20,7 @@ namespace SystemCheckPoint.Page
         private bool isClicked = false;
         public PageEditPass()
         {
+            AppConnect.modelOdb = new CheckPointDbEntities1();
             InitializeComponent();
             LsvExternalPerson.ItemsSource = AppConnect.modelOdb.ExternalPerson.ToArray();
         }
@@ -37,7 +38,6 @@ namespace SystemCheckPoint.Page
         private void BtnExit_Click(object sender, RoutedEventArgs e)
         {
             AppFrame.FrameMain.Content = null;
-
         }
         private void ElpPozition_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -179,29 +179,12 @@ namespace SystemCheckPoint.Page
                 !string.IsNullOrWhiteSpace(TbxWeight.Text) &&
                 !string.IsNullOrWhiteSpace(TbxNumberDoc.Text))
             {
-                var AutoDb = AppConnect.modelOdb.AutoTransport.FirstOrDefault(x => x.StateNumber == TbxStateNumber.Text);
-                if (AutoDb == null)
-                    MessageBox.Show("Автотранспорт с таким гос. номером не найден");
-                AccountingMaterialValue materialValue = new AccountingMaterialValue
-                {
-                    Name = TbxNameMaterial.Text,
-                    Count = int.Parse(TbxCount.Text),
-                    Weight = int.Parse(TbxWeight.Text),
-                    IDAutoTransport = AutoDb.ID,
-                    NumberDocument = TbxNumberDoc.Text
-                };
-                AppConnect.modelOdb.AccountingMaterialValue.Add(materialValue);
-                Pass pass = new Pass
-                {
-                    IDTypePass = 3,
-                    DateOfFormation = DateTime.Now
-                };
-                AppConnect.modelOdb.Pass.Add(pass);
-                AppConnect.modelOdb.SaveChanges();
+                AddAuto(TbxStateNumber.Text, TbxNameMaterial.Text, TbxCount.Text, TbxWeight.Text, TbxNumberDoc.Text);
+                int IDAuto = int.Parse(AppConnect.modelOdb.AutoTransport.Where(x => x.StateNumber == TbxStateNumber.Text).Select(x => x.ID).ToString());
                 int IDMatValue = AppConnect.modelOdb.AccountingMaterialValue.Max(x => x.ID);
                 int IDPass = AppConnect.modelOdb.Pass.Max(x => x.ID);
                 MessageBox.Show("Данные успешно сохранены!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
-                PeportPassMaterialValue reportPass = new PeportPassMaterialValue(AutoDb.ID, IDPass, DateTime.Now.ToString(), IDMatValue);
+                PeportPassMaterialValue reportPass = new PeportPassMaterialValue(IDAuto, IDPass, DateTime.Now.ToString(), IDMatValue);
                 reportPass.Show();
                 DispatcherTimer timer = new DispatcherTimer();
                 timer.Tick += (s, _e) =>
@@ -224,10 +207,32 @@ namespace SystemCheckPoint.Page
             //    MessageBox.Show("Произошла критическая ошибка приложения" + ex.ToString(), "Критическая ошибка приложения", MessageBoxButton.OK, MessageBoxImage.Error);
             //}
         }
+        public void AddAuto(string StateNumber, string NameMaterial, string Count, string Weight, string NumberDoc)
+        {
+            var AutoDb = AppConnect.modelOdb.AutoTransport.FirstOrDefault(x => x.StateNumber == StateNumber);
+            if (AutoDb == null)
+                MessageBox.Show("Автотранспорт с таким гос. номером не найден");
+            AccountingMaterialValue materialValue = new AccountingMaterialValue
+            {
+                Name = NameMaterial,
+                Count = int.Parse(Count),
+                Weight = int.Parse(Weight),
+                IDAutoTransport = AutoDb.ID,
+                NumberDocument = NumberDoc
+            };
+            AppConnect.modelOdb.AccountingMaterialValue.Add(materialValue);
+            Pass pass = new Pass
+            {
+                IDTypePass = 3,
+                DateOfFormation = DateTime.Now
+            };
+            AppConnect.modelOdb.Pass.Add(pass);
+            AppConnect.modelOdb.SaveChanges();
+        }
 
         private void TbxStateNumber_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^а-яА-Я0-9]+");
+            Regex regex = new Regex("[^А-Я0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
     }

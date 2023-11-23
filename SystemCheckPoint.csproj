@@ -102,47 +102,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AppData\EmployeeAndPerson.cs" />
-    <Compile Include="AppData\sysdiagrams.cs">
-      <DependentUpon>CheckPointDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\PageAutoData.xaml.cs">
-      <DependentUpon>PageAutoData.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\PageEditPassSecurity.xaml.cs">
-      <DependentUpon>PageEditPassSecurity.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\PageMenuPassAdmin.xaml.cs">
-      <DependentUpon>PageMenuPassAdmin.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\PageReportAdmin.xaml.cs">
-      <DependentUpon>PageReportAdmin.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Report\PeportPassMaterialValue.xaml.cs">
-      <DependentUpon>PeportPassMaterialValue.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Report\ReportInfoArrivalDeparture.xaml.cs">
-      <DependentUpon>ReportInfoArrivalDeparture.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Report\ReportPassExternalPerson.xaml.cs">
-      <DependentUpon>ReportPassExternalPerson.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WorkWindow.xaml.cs">
-      <DependentUpon>WorkWindow.xaml</DependentUpon>
-    </Compile>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="AppData\AccountingMaterialValue.cs">
       <DependentUpon>CheckPointDb.tt</DependentUpon>
     </Compile>
-    <Compile Include="AppData\AppConnect.cs" />
-    <Compile Include="AppData\AppFrame.cs" />
     <Compile Include="AppData\AutoTransport.cs">
       <DependentUpon>CheckPointDb.tt</DependentUpon>
     </Compile>
@@ -167,6 +129,7 @@
     <Compile Include="AppData\Employee.cs">
       <DependentUpon>CheckPointDb.tt</DependentUpon>
     </Compile>
+    <Compile Include="AppData\EmployeeAndPerson.cs" />
     <Compile Include="AppData\ExternalPerson.cs">
       <DependentUpon>CheckPointDb.tt</DependentUpon>
     </Compile>
@@ -185,9 +148,49 @@
     <Compile Include="AppData\sp_helpdiagrams_Result.cs">
       <DependentUpon>CheckPointDb.tt</DependentUpon>
     </Compile>
+    <Compile Include="AppData\sysdiagrams.cs">
+      <DependentUpon>CheckPointDb.tt</DependentUpon>
+    </Compile>
     <Compile Include="AppData\TypePass.cs">
       <DependentUpon>CheckPointDb.tt</DependentUpon>
     </Compile>
+    <Compile Include="Pages\PageAutoData.xaml.cs">
+      <DependentUpon>PageAutoData.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PageEditPassSecurity.xaml.cs">
+      <DependentUpon>PageEditPassSecurity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PageMenuPassAdmin.xaml.cs">
+      <DependentUpon>PageMenuPassAdmin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PageOtherPass.xaml.cs">
+      <DependentUpon>PageOtherPass.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PageReportAdmin.xaml.cs">
+      <DependentUpon>PageReportAdmin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\PeportPassMaterialValue.xaml.cs">
+      <DependentUpon>PeportPassMaterialValue.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportInfoArrivalDeparture.xaml.cs">
+      <DependentUpon>ReportInfoArrivalDeparture.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportPassExternalPerson.xaml.cs">
+      <DependentUpon>ReportPassExternalPerson.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WorkWindow.xaml.cs">
+      <DependentUpon>WorkWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AppData\AppConnect.cs" />
+    <Compile Include="AppData\AppFrame.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -201,6 +204,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\PageMenuPassAdmin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\PageOtherPass.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -268,16 +275,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AppData\CheckPointDb.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CheckPointDb.edmx</DependentUpon>
-      <LastGenOutput>CheckPointDb.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="AppData\CheckPointDb.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CheckPointDb.edmx</DependentUpon>
-      <LastGenOutput>CheckPointDb.cs</LastGenOutput>
-    </Content>
     <Resource Include="Images\find.png" />
     <Resource Include="Images\icon_down.png" />
     <Resource Include="Images\check.png" />
@@ -290,10 +287,26 @@
     <Resource Include="Images\doc.png" />
     <Resource Include="Images\maximize.png" />
     <Resource Include="Images\minimize.png" />
+    <Content Include="AppData\CheckPointDb.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CheckPointDb.edmx</DependentUpon>
+      <LastGenOutput>CheckPointDb.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="AppData\CheckPointDb.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CheckPointDb.edmx</DependentUpon>
+      <LastGenOutput>CheckPointDb.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
     <Content Include="Scripts\nugetexample.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CheckPointLibrary\CheckPointLibrary.csproj">
+      <Project>{b47d2584-5944-4cd0-a132-464069f2224c}</Project>
+      <Name>CheckPointLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

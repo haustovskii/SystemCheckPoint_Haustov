@@ -1,9 +1,15 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using System.Linq.Expressions;
 using SystemCheckPoint.AppData;
+using SystemCheckPoint.Pages;
+
 namespace SystemCheckPoint.Page
 {
     /// <summary>
@@ -12,11 +18,10 @@ namespace SystemCheckPoint.Page
     public partial class PageMenuPassAdmin : System.Windows.Controls.Page
     {
         public int IDEmployee = 0;
-        List<EmployeeAndPerson> list = new List<EmployeeAndPerson>();
         public PageMenuPassAdmin()
         {
             InitializeComponent();
-            LoadData();
+            DgrData.ItemsSource = AppConnect.modelOdb.Employee.ToArray();
             LsvEmployee.ItemsSource = AppConnect.modelOdb.Employee.ToArray();
             CmbPost.ItemsSource = AppConnect.modelOdb.Post.Select(x => x.Name).ToArray();
         }
@@ -31,7 +36,6 @@ namespace SystemCheckPoint.Page
         //Сохранение и редактирование данных о сотруднике/стороннем лице
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            //НЕ РАБОТАЕТ, НАДО ВСЕ ЧЕКАЙ(((((
             if (!string.IsNullOrEmpty(TbxLastName.Text) && !string.IsNullOrEmpty(TbxName.Text) &&
                 !string.IsNullOrEmpty(TbxPatronymic.Text) && DtpDate.SelectedDate != null &&
                 !string.IsNullOrEmpty(TbxSerriesPass.Text) && !string.IsNullOrEmpty(TbxNumberPass.Text) &&
@@ -64,23 +68,26 @@ namespace SystemCheckPoint.Page
                     };
                     AppConnect.modelOdb.Employee.Add(employee);
                     AppConnect.modelOdb.SaveChanges();
-                    LoadData();
+                    DgrData.ItemsSource = AppConnect.modelOdb.Employee.ToArray();
                     MessageBox.Show("Данные успешно сохранены!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 //Редактирование данных
                 else
                 {
+                    byte[] imageData = GetImageDataFromImageControl(ImgEmpl);
                     Employee employee = AppConnect.modelOdb.Employee.FirstOrDefault(x => x.ID == IDEmployee);
                     if (employee != null)
                     {
                         employee.LastName = TbxLastName.Text;
                         employee.FirstName = TbxName.Text;
                         employee.Patronumic = TbxPatronymic.Text;
-                        employee.IDPost = CmbPost.SelectedIndex;
+                        employee.IDPost = CmbPost.SelectedIndex + 1;
                         employee.NumberPassport = int.Parse(TbxNumberPass.Text);
                         employee.SeriesPassport = int.Parse(TbxSerriesPass.Text);
+                        if (imageData != null)
+                            employee.ImagePath = imageData;
                         AppConnect.modelOdb.SaveChanges();
-                        LoadData();
+                        DgrData.ItemsSource = AppConnect.modelOdb.Employee.ToArray();
                         MessageBox.Show("Данные успешно изменены!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
@@ -91,77 +98,21 @@ namespace SystemCheckPoint.Page
             else
                 MessageBox.Show("Данные не были введены", "Ошибка при добавлении данных", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-        //Поиск на главном экране
-        private void TbxFind_TextChanged(object sender, TextChangedEventArgs e)
+        private byte[] GetImageDataFromImageControl(Image imageControl)
         {
-            SortFiler();
+            if (imageControl.Source is BitmapSource bitmapSource)
+            {
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    BitmapEncoder encoder = new PngBitmapEncoder(); // Используйте соответствующий энкодер
+                    encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+                    encoder.Save(memoryStream);
+                    return memoryStream.ToArray();
+                }
+            }
+
+            return null;
         }
-        private void CmbFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SortFiler();
-        }
-
-        private void SortFiler()
-        {
-            var filteredList = list.ToList(); // Копируем исходный список для фильтрации
-
-            // Фильтрация на основе введенного текста
-            filteredList = filteredList.Where(x =>
-                x.LastName.Contains(TbxFind.Text) ||
-                x.FirstName.Contains(TbxFind.Text) ||
-                x.Patronumic.Contains(TbxFind.Text) ||
-                x.Bithday.ToString().Contains(TbxFind.Text) ||
-                x.NumberPass.ToString().Contains(TbxFind.Text) ||
-                x.DateOfFormation.ToString().Contains(TbxFind.Text) ||
-                x.Type.Contains(TbxFind.Text)
-            ).ToList();
-            if (CmbViewType.SelectedIndex == 0)
-            {
-                filteredList = filteredList.ToList();
-            }
-            if (CmbViewType.SelectedIndex == 1) // Только сотрудники
-            {
-                filteredList = filteredList.Where(x => x.Type == "СТ").ToList();
-            }
-            else if (CmbViewType.SelectedIndex == 2) // Только сторонние лица
-            {
-                filteredList = filteredList.Where(x => x.Type == "СТЛ").ToList();
-            }
-            if (CmbSort.SelectedIndex != -1)
-            {
-                // Применение выбранных полей для сортировки
-                if (CmbFilter.SelectedIndex == 0) // По фамилии
-                    if (CmbSort.SelectedIndex == 1)
-                        filteredList = filteredList.OrderByDescending(x => x.LastName).ToList();
-                    else
-                        filteredList = filteredList.OrderBy(x => x.LastName).ToList();
-                else if (CmbFilter.SelectedIndex == 1) // По дате рождения
-                    if (CmbSort.SelectedIndex == 1)
-                        filteredList = filteredList.OrderByDescending(x => x.Bithday).ToList();
-                    else
-                        filteredList = filteredList.OrderBy(x => x.Bithday).ToList();
-
-                else if (CmbFilter.SelectedIndex == 2) // По № пропуска
-
-                    if (CmbSort.SelectedIndex == 1)
-                        filteredList = filteredList.OrderByDescending(x => x.NumberPass).ToList();
-                    else
-                        filteredList = filteredList.OrderBy(x => x.NumberPass).ToList();
-
-                else if (CmbFilter.SelectedIndex == 3) // По дате добавления
-
-                    if (CmbSort.SelectedIndex == 1)
-                        filteredList = filteredList.OrderByDescending(x => x.DateOfFormation).ToList();
-                    else
-                        filteredList = filteredList.OrderBy(x => x.DateOfFormation).ToList();
-            }
-            if (LsvData.ItemsSource != null)
-                LsvData.ItemsSource = filteredList;
-
-        }
-
-
-
         //Открытие автоматической проверки
         private void BtnSelectEmployee_Click(object sender, RoutedEventArgs e)
         {
@@ -170,43 +121,6 @@ namespace SystemCheckPoint.Page
                 BrdSelectEmployee.Visibility = Visibility.Visible;
             else
                 BrdSelectEmployee.Visibility = Visibility.Collapsed;
-        }
-        private void LoadData()
-        {
-            using (var context = new CheckPointDbEntities()) // Создайте экземпляр вашего контекста данных
-            {
-                var queryEmployee = from p in context.Pass
-                                    join e in context.Employee on p.ID equals e.IDPass
-                                    join t in context.TypePass on p.IDTypePass equals t.ID
-                                    select new EmployeeAndPerson
-                                    {
-                                        ID = e.ID,
-                                        LastName = e.LastName,
-                                        FirstName = e.FirstName,
-                                        Patronumic = e.Patronumic,
-                                        Bithday = e.Birthday.ToString(),
-                                        NumberPass = p.ID,
-                                        Type = t.Name,
-                                        DateOfFormation = (DateTime)p.DateOfFormation
-                                    };
-                var queryExternalPerson = from p in context.Pass
-                                          join e in context.ExternalPerson on p.ID equals e.IDPass
-                                          join t in context.TypePass on p.IDTypePass equals t.ID
-                                          select new EmployeeAndPerson
-                                          {
-                                              ID = e.ID,
-                                              LastName = e.LastName,
-                                              FirstName = e.FirstName,
-                                              Patronumic = e.Patronumic,
-                                              Bithday = e.Birthday.ToString(),
-                                              NumberPass = p.ID,
-                                              Type = t.Name,
-                                              DateOfFormation = (DateTime)p.DateOfFormation
-                                          };
-                var combinedQuery = queryEmployee.Union(queryExternalPerson);
-                list = combinedQuery.ToList();
-            }
-            LsvData.ItemsSource = list.ToArray();
         }
         //Поиск в автоматическом заполнении
         private void TbxSelectEmployee_TextChanged(object sender, TextChangedEventArgs e)
@@ -235,12 +149,14 @@ namespace SystemCheckPoint.Page
                     CmbPost.SelectedIndex = EmployeeDb.IDPost - 1;
                     TbxSerriesPass.Text = EmployeeDb.SeriesPassport.ToString();
                     TbxNumberPass.Text = EmployeeDb.NumberPassport.ToString();
+                    if (EmployeeDb.ImagePath != null)
+                        ImgEmpl.Source = LoadImage(EmployeeDb.ImagePath);
                 }
                 BrdSelectEmployee.Visibility = Visibility.Collapsed;
 
             }
         }
-
+        //Возврат к таблице
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
             if (StpAddEditPass.Visibility == Visibility)
@@ -251,40 +167,132 @@ namespace SystemCheckPoint.Page
                 BtnBack.Visibility = Visibility.Collapsed;
             }
         }
-
-        private void DgrData_LoadingRow(object sender, DataGridRowEventArgs e)
-        {
-            DataGrid dataGrid = sender as DataGrid;
-
-            // Убедимся, что это не заголовок строки (заголовок тоже является строкой)
-            if (e.Row != null && !e.Row.IsNewItem)
-            {
-                e.Row.Header = e.Row.GetIndex() + 1;
-            }
-        }
-
+        //Удаление пропуска
         private void BtnDeletePass_Click(object sender, RoutedEventArgs e)
         {
-            if (LsvData.SelectedItem != null)
+            if (DgrData.SelectedItem != null)
             {
                 MessageBoxResult messageBoxResult = MessageBox.Show("Удалить эту строку?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
-                    EmployeeAndPerson selectedPerson = (EmployeeAndPerson)LsvData.SelectedItem;
-                    if (selectedPerson.Type == "Сотрудник")
-                        AppConnect.modelOdb.Employee.Remove(AppConnect.modelOdb.Employee.FirstOrDefault(x => x.ID == selectedPerson.ID));
-                    else
-                        AppConnect.modelOdb.Employee.Remove(AppConnect.modelOdb.Employee.FirstOrDefault(x => x.ID == selectedPerson.ID));
+                    Employee employee = (Employee)DgrData.SelectedItem;
+                    AppConnect.modelOdb.Employee.Remove(AppConnect.modelOdb.Employee.FirstOrDefault(x => x.ID == employee.ID));
                     AppConnect.modelOdb.SaveChanges();
-                    LoadData();
+                    DgrData.ItemsSource = AppConnect.modelOdb.Employee.ToArray();
                     MessageBox.Show("Данные успешно удалены!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
         }
-
-        private void LsvData_Loaded(object sender, RoutedEventArgs e)
+        private void UpdateData()
         {
+            var query = AppConnect.modelOdb.Employee.AsQueryable();
 
+            // Применяем фильтрацию
+            string searchText = TbxFind.Text.ToLower();
+            query = query.Where(x =>
+                x.LastName.ToLower().Contains(searchText) ||
+                x.FirstName.ToLower().Contains(searchText) ||
+                x.Patronumic.ToLower().Contains(searchText) ||
+                x.Birthday.ToString().Contains(searchText) ||
+                x.Pass.ID.ToString().Contains(searchText) ||
+                x.Pass.DateOfFormation.ToString().Contains(searchText));
+
+            // Применяем сортировку
+            switch (CmbSort.SelectedIndex)
+            {
+                case 0:
+                    query = query.OrderBy(x => x.LastName);
+                    break;
+                case 1:
+                    query = query.OrderByDescending(x => x.LastName);
+                    break;
+                default:
+                    break;
+            }
+
+            // Применяем фильтр по выбранному полю
+            if (CmbFilter.SelectedIndex >= 0)
+            {
+                switch (CmbFilter.SelectedIndex)
+                {
+                    case 0:
+                        query = query.OrderBy(x => x.LastName);
+                        break;
+                    case 1:
+                        query = query.OrderBy(x => x.Birthday);
+                        break;
+                    case 2:
+                        query = query.OrderBy(x => x.Pass.ID);
+                        break;
+                    case 3:
+                        query = query.OrderBy(x => x.Pass.DateOfFormation);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            DgrData.ItemsSource = query.ToList();
+        }
+
+        private void CmbFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateData();
+        }
+
+        private void TbxFind_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateData();
+        }
+
+        private void CmbSort_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateData();
+        } 
+        private void DgrData_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            e.Row.Header = (e.Row.GetIndex() + 1).ToString();
+        }
+        private void BtnAddImage_Click(object sender, RoutedEventArgs e)
+        {
+            byte[] selectedImageData;
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image Files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg|All Files (*.*)|*.*";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string imagePath = openFileDialog.FileName;
+
+                // Преобразование изображения в массив байтов
+                using (FileStream fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+                {
+                    using (BinaryReader br = new BinaryReader(fs))
+                    {
+                        selectedImageData = br.ReadBytes((int)fs.Length);
+                    }
+                }
+
+                // Отображение изображения в ImgEmpl
+                ImgEmpl.Source = LoadImage(selectedImageData);
+            }
+        }
+        private BitmapImage LoadImage(byte[] imageData)
+        {
+            BitmapImage image = new BitmapImage();
+            using (MemoryStream memoryStream = new MemoryStream(imageData))
+            {
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.StreamSource = memoryStream;
+                image.EndInit();
+            }
+            return image;
+        }
+
+        private void BtnOtherPass_Click(object sender, RoutedEventArgs e)
+        {
+            AppFrame.FrameMain.Navigate(new PageOtherPass());
         }
     }
 }
+

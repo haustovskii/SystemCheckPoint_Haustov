@@ -15,10 +15,10 @@ namespace SystemCheckPoint.AppData
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class CheckPointDbEntities : DbContext
+    public partial class CheckPointDbEntities1 : DbContext
     {
-        public CheckPointDbEntities()
-            : base("name=CheckPointDbEntities")
+        public CheckPointDbEntities1()
+            : base("name=CheckPointDbEntities1")
         {
         }
     

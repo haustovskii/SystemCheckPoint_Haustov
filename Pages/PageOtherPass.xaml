@@ -1,0 +1,157 @@
+﻿<Page
+    x:Class="SystemCheckPoint.Pages.PageOtherPass"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SystemCheckPoint.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Меню Пропуски"
+    FontSize="18"
+    mc:Ignorable="d">
+    <Grid Background="White">
+        <Button
+            Name="BtnBack"
+            Click="BtnBack_Click"
+            Style="{StaticResource StyleBtnDefault}"
+            Visibility="Visible" />
+        <StackPanel
+            Margin="-40,20,20,20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+            <TextBlock Margin="5" Text="Сторонние лица" />
+            <Border
+                Name="BrdTumb"
+                Width="50"
+                Height="22"
+                BorderThickness="2"
+                CornerRadius="10"
+                MouseDown="ElpPozition_MouseDown"
+                Style="{StaticResource StyleBrd}">
+                <Ellipse
+                    Name="ElpPozition"
+                    Width="15"
+                    Height="15"
+                    Margin="0,1,25,1"
+                    Fill="#A9D18E" />
+            </Border>
+            <TextBlock Margin="5" Text="Ценности" />
+        </StackPanel>
+        <StackPanel
+            Name="StpDataExternal"
+            Grid.Row="1"
+            Visibility="Visible">
+            <DataGrid
+                Name="DgrExternal"
+                Grid.Row="1"
+                Height="450"
+                HorizontalAlignment="Center"
+                d:ItemsSource="{d:SampleData ItemCount=10}"
+                AutoGenerateColumns="False"
+                Background="White"
+                CanUserDeleteRows="False"
+                IsReadOnly="True"
+                LoadingRow="DgrExternal_LoadingRow"
+                SelectionMode="Single">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        MinWidth="120"
+                        Binding="{Binding LastName}"
+                        Header="Фамилия" />
+                    <DataGridTextColumn
+                        MinWidth="120"
+                        Binding="{Binding FirstName}"
+                        Header="Имя" />
+                    <DataGridTextColumn
+                        MinWidth="150"
+                        Binding="{Binding Patronumic}"
+                        Header="Отчество" />
+                    <DataGridTextColumn
+                        MinWidth="140"
+                        Binding="{Binding Birthday}"
+                        Header="Дата рождения" />
+                    <DataGridTextColumn
+                        MinWidth="80"
+                        Binding="{Binding Pass.ID}"
+                        Header="Пропуск" />
+                    <DataGridTextColumn
+                        MinWidth="60"
+                        Binding="{Binding SeriesPassport}"
+                        Header="Серия" />
+                    <DataGridTextColumn
+                        MinWidth="80"
+                        Binding="{Binding NumberPassport}"
+                        Header="Номер" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <Grid>
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                            Name="BtnDeletePass"
+                            Margin="10"
+                            Click="BtnDeletePass_Click"
+                            Content="Удалить"
+                            Style="{StaticResource StyleBtnDefault}" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+        <StackPanel
+            Name="StpDataMatValue"
+            Grid.Row="1"
+            Visibility="Collapsed">
+            <DataGrid
+                Name="DgrMatValue"
+                Grid.Row="1"
+                Height="450"
+                HorizontalAlignment="Center"
+                d:ItemsSource="{d:SampleData ItemCount=10}"
+                AutoGenerateColumns="False"
+                Background="White"
+                CanUserDeleteRows="False"
+                IsReadOnly="True"
+                LoadingRow="DgrMatValue_LoadingRow"
+                SelectionMode="Single">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        MinWidth="200"
+                        Binding="{Binding Name}"
+                        Header="Название" />
+                    <DataGridTextColumn
+                        MinWidth="50"
+                        Binding="{Binding Weight}"
+                        Header="Вес" />
+                    <DataGridTextColumn
+                        MinWidth="110"
+                        Binding="{Binding Count}"
+                        Header="Количество" />
+                    <DataGridTextColumn
+                        MinWidth="140"
+                        Binding="{Binding NumberDocument}"
+                        Header="Документ" />
+                    <DataGridTextColumn
+                        MinWidth="100"
+                        Binding="{Binding Pass.ID}"
+                        Header="Пропуск" />
+                    <DataGridTextColumn
+                        MinWidth="90"
+                        Binding="{Binding AutoTransport.StateNumber}"
+                        Header="Транспорт" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <Grid>
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                            Name="BtnDeletePassValue"
+                            Margin="10"
+                            Click="BtnDeletePassValue_Click"
+                            Content="Удалить"
+                            Style="{StaticResource StyleBtnDefault}" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Page>
