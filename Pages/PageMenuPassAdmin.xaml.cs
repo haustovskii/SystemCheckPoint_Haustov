@@ -41,6 +41,11 @@ namespace SystemCheckPoint.Page
                 !string.IsNullOrEmpty(TbxSerriesPass.Text) && !string.IsNullOrEmpty(TbxNumberPass.Text) &&
                 CmbPost.SelectedIndex > -1)
             {
+                if (!CheckPointLibrary.MainClass.ValidateFIO(TbxLastName.Text, TbxName.Text, TbxPatronymic.Text))
+                {
+                    MessageBox.Show("Введите корректные данные для ФИО", "Ошибка при добавлении данных", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
                 //Добавление данных
                 if (TbxIDPass == null)
                 {

@@ -129,7 +129,6 @@
     <Compile Include="AppData\Employee.cs">
       <DependentUpon>CheckPointDb.tt</DependentUpon>
     </Compile>
-    <Compile Include="AppData\EmployeeAndPerson.cs" />
     <Compile Include="AppData\ExternalPerson.cs">
       <DependentUpon>CheckPointDb.tt</DependentUpon>
     </Compile>

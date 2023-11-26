@@ -38,12 +38,10 @@ namespace SystemCheckPoint.Pages
         }
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            //try
-            //{
             if (!string.IsNullOrWhiteSpace(TbxIDPassAuto.Text) && !string.IsNullOrWhiteSpace(TbxMark.Text) &&
                 !string.IsNullOrWhiteSpace(TbxStateNumber.Text) && !string.IsNullOrWhiteSpace(TbxSeriesNumber.Text) &&
                 !string.IsNullOrWhiteSpace(TbxColor.Text))
-            {
+            {                
                 AutoTransport autoTransport = new AutoTransport
                 {
                     IDPass = int.Parse(TbxIDPassAuto.Text),

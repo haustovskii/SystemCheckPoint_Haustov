@@ -5,24 +5,25 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="c7be036767284fbbb6bdfde08f286035" Name="Diagram1">
-        <EntityTypeShape EntityType="CheckPointDbModel.AccountingMaterialValue" Width="1.5" PointX="7.5" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CheckPointDbModel.AutoTransport" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CheckPointDbModel.Departament" Width="1.5" PointX="3.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="CheckPointDbModel.Employee" Width="1.5" PointX="8.25" PointY="6.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="CheckPointDbModel.ExternalPerson" Width="1.5" PointX="5.25" PointY="11.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="CheckPointDbModel.InfoArrivalDeparture" Width="1.5" PointX="7.5" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CheckPointDbModel.Pass" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CheckPointDbModel.Post" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CheckPointDbModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CheckPointDbModel.TypePass" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
-        <AssociationConnector Association="CheckPointDbModel.FK_AccountingMaterialValue_AutoTransport" ManuallyRouted="false" />
-        <AssociationConnector Association="CheckPointDbModel.FK_AutoTransport_Pass" ManuallyRouted="false" />
-        <AssociationConnector Association="CheckPointDbModel.FK_Post_Departament" ManuallyRouted="false" />
-        <AssociationConnector Association="CheckPointDbModel.FK_Employee_Pass" ManuallyRouted="false" />
-        <AssociationConnector Association="CheckPointDbModel.FK_Employee_Post" ManuallyRouted="false" />
-        <AssociationConnector Association="CheckPointDbModel.FK_ExternalPerson_Pass" ManuallyRouted="false" />
-        <AssociationConnector Association="CheckPointDbModel.FK_InfoArrivalDeparture_ExternalPerson" ManuallyRouted="false" />
-        <AssociationConnector Association="CheckPointDbModel.FK_Pass_TypePass" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CheckPointDbModel.AccountingMaterialValue" Width="1.5" PointX="7.5" PointY="3.75" />
+        <EntityTypeShape EntityType="CheckPointDbModel.AutoTransport" Width="1.5" PointX="5.25" PointY="3.75" />
+        <EntityTypeShape EntityType="CheckPointDbModel.Departament" Width="1.5" PointX="3.75" PointY="9" />
+        <EntityTypeShape EntityType="CheckPointDbModel.Employee" Width="1.5" PointX="8.25" PointY="7.875" />
+        <EntityTypeShape EntityType="CheckPointDbModel.ExternalPerson" Width="1.5" PointX="5.25" PointY="11.625" />
+        <EntityTypeShape EntityType="CheckPointDbModel.InfoArrivalDeparture" Width="1.5" PointX="10.5" PointY="10" />
+        <EntityTypeShape EntityType="CheckPointDbModel.Pass" Width="1.5" PointX="3" PointY="5.625" />
+        <EntityTypeShape EntityType="CheckPointDbModel.Post" Width="1.5" PointX="6" PointY="8.875" />
+        <EntityTypeShape EntityType="CheckPointDbModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="CheckPointDbModel.TypePass" Width="1.5" PointX="0.75" PointY="6" />
+        <AssociationConnector Association="CheckPointDbModel.FK_AccountingMaterialValue_AutoTransport" />
+        <AssociationConnector Association="CheckPointDbModel.FK_AutoTransport_Pass" />
+        <AssociationConnector Association="CheckPointDbModel.FK_Post_Departament" />
+        <AssociationConnector Association="CheckPointDbModel.FK_Employee_Pass" />
+        <AssociationConnector Association="CheckPointDbModel.FK_Employee_Post" />
+        <AssociationConnector Association="CheckPointDbModel.FK_InfoArrivalDeparture_Employee" />
+        <AssociationConnector Association="CheckPointDbModel.FK_ExternalPerson_Pass" />
+        <AssociationConnector Association="CheckPointDbModel.FK_InfoArrivalDeparture_ExternalPerson" />
+        <AssociationConnector Association="CheckPointDbModel.FK_Pass_TypePass" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

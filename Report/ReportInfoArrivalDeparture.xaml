@@ -6,9 +6,8 @@
     xmlns:local="clr-namespace:SystemCheckPoint.Report"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Отчет о посещении"
-    Width="900"
-    MinHeight="300"
-    Height="auto"
+    Width="1000"
+    Height="500"
     FontSize="20"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
@@ -31,7 +30,7 @@
         </Style>
     </Window.Resources>
     <Grid Name="GrdMain" Margin="10">
-        <TextBlock />
+        <TextBlock Background="Transparent" MouseDown="Grid_MouseDown" />
         <StackPanel HorizontalAlignment="Center">
             <StackPanel
                 Name="StpButton"
@@ -73,33 +72,67 @@
             </StackPanel>
             <Grid HorizontalAlignment="Center">
                 <DataGrid
-                    Name="DtgData"
+                    Name="DtgDataEmployee"
                     d:ItemsSource="{d:SampleData ItemCount=10}"
                     AutoGenerateColumns="False"
+                    IsReadOnly="True"
                     LoadingRow="DtgData_LoadingRow">
                     <DataGrid.Columns>
                         <DataGridTextColumn
-                            Width="150"
-                            Binding="{Binding LastName}"
+                            Width="110"
+                            Binding="{Binding Employee.LastName}"
                             Header="Фамилия" />
                         <DataGridTextColumn
-                            Width="150"
-                            Binding="{Binding Name}"
+                            Width="110"
+                            Binding="{Binding Employee.FirstName}"
                             Header="Имя" />
                         <DataGridTextColumn
                             Width="150"
-                            Binding="{Binding Patronumic}"
+                            Binding="{Binding Employee.Patronumic}"
                             Header="Отчество" />
                         <DataGridTextColumn
-                            Width="120"
-                            Binding="{Binding TimeArrival}"
+                            Width="220"
+                            Binding="{Binding ArrivalTime}"
                             Header="Приход" />
                         <DataGridTextColumn
-                            Width="120"
-                            Binding="{Binding TimeDeparture}"
+                            Width="220"
+                            Binding="{Binding DepartureTime}"
                             Header="Уход" />
                         <DataGridTextColumn
-                            Width="120"
+                            Width="90"
+                            Binding="{Binding TotalTime}"
+                            Header="Время" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid
+                    Name="DtgDataExternalPerson"
+                    d:ItemsSource="{d:SampleData ItemCount=10}"
+                    AutoGenerateColumns="False"
+                    IsReadOnly="True"
+                    LoadingRow="DtgData_LoadingRow">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Width="110"
+                            Binding="{Binding ExternalPerson.LastName}"
+                            Header="Фамилия" />
+                        <DataGridTextColumn
+                            Width="110"
+                            Binding="{Binding ExternalPerson.FirstName}"
+                            Header="Имя" />
+                        <DataGridTextColumn
+                            Width="150"
+                            Binding="{Binding ExternalPerson.Patronumic}"
+                            Header="Отчество" />
+                        <DataGridTextColumn
+                            Width="220"
+                            Binding="{Binding ArrivalTime}"
+                            Header="Приход" />
+                        <DataGridTextColumn
+                            Width="220"
+                            Binding="{Binding DepartureTime}"
+                            Header="Уход" />
+                        <DataGridTextColumn
+                            Width="90"
                             Binding="{Binding TotalTime}"
                             Header="Время" />
                     </DataGrid.Columns>

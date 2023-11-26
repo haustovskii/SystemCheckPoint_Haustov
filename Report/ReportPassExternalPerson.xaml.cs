@@ -1,13 +1,7 @@
-﻿using MessagingToolkit.QRCode.Codec;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using SystemCheckPoint.AppData;
 
 namespace SystemCheckPoint.Report
@@ -33,7 +27,7 @@ namespace SystemCheckPoint.Report
                 TblSeries.Text = extPerson.SeriesPassport.ToString();
                 TblNumber.Text = extPerson.NumberPassport.ToString();
             }
-            GenerateQR(IDPass);
+            ImgQR.Source = CheckPointLibrary.MainClass.GenerateQR(IDPass);
             time = AppConnect.modelOdb.Pass.Where(x => x.ID == extPerson.IDPass).Select(x => x.DateOfFormation).FirstOrDefault().ToString();
         }
 
@@ -42,31 +36,7 @@ namespace SystemCheckPoint.Report
             if (e.LeftButton == MouseButtonState.Pressed)
                 this.DragMove();
         }
-        private void GenerateQR(int IDPass)
-        {
-            QRCodeEncoder encoder = new QRCodeEncoder(); // Создаем объект класса QRCodeEncoder
-            Bitmap qrcode = encoder.Encode(IDPass.ToString()); // Кодируем текст, полученный из TextBox'а (qrtext), в переменную qrcode
-            ImgQR.Source = BitmapToImageSource(qrcode); // Устанавливаем qrcode как источник изображения для ImgQR
-        }
-
-        // Метод для преобразования Bitmap в ImageSource
-        public ImageSource BitmapToImageSource(Bitmap bitmap)
-        {
-            var memoryStream = new MemoryStream();
-            bitmap.Save(memoryStream, ImageFormat.Bmp); // Можно выбрать другой формат, если нужно
-            memoryStream.Position = 0;
-            var imageSource = new BitmapImage();
-            imageSource.BeginInit();
-            imageSource.StreamSource = memoryStream;
-            imageSource.CacheOption = BitmapCacheOption.OnLoad;
-            imageSource.EndInit();
-            return imageSource;
-        }
-        private void BtnBack_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
+        private void BtnBack_Click(object sender, RoutedEventArgs e) => this.Close();
         private void BtnPrint_Click(object sender, RoutedEventArgs e)
         {
             StpButton.Visibility = Visibility.Collapsed;

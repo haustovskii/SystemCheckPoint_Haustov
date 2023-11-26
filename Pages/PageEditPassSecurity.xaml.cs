@@ -118,7 +118,12 @@ namespace SystemCheckPoint.Page
                     !string.IsNullOrWhiteSpace(TbxPatronymic.Text) && !string.IsNullOrWhiteSpace(TbxNumberPass.Text) &&
                     !string.IsNullOrWhiteSpace(TbxSerriesPass.Text) && DtpBirthday.SelectedDate != null)
                 {
-                    Pass pass = new Pass
+                    if (!CheckPointLibrary.MainClass.ValidateFIO(TbxLastName.Text, TbxName.Text, TbxPatronymic.Text))
+                    {
+                        MessageBox.Show("Введите корректные данные для ФИО", "Ошибка при добавлении данных", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                        Pass pass = new Pass
                     {
                         IDTypePass = 1,
                         DateOfFormation = DateTime.Now

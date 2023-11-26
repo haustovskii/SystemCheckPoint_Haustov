@@ -66,10 +66,12 @@
                                 <TextBlock
                                     Margin="7"
                                     VerticalAlignment="Center"
+                                    MouseDown="ElpPozition1_MouseDown"
                                     Text="О сотрудниках" />
                                 <TextBlock
                                     Margin="7"
                                     VerticalAlignment="Center"
+                                    MouseDown="ElpPozition2_MouseDown"
                                     Text="О сторонних лицах" />
                             </StackPanel>
                         </StackPanel>

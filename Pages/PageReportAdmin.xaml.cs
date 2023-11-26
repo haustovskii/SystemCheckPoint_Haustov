@@ -48,6 +48,11 @@ namespace SystemCheckPoint.Page
 
         private void BtnCreateReport_Click(object sender, RoutedEventArgs e)
         {
+            if (SelectEmployee == SelectPerson)
+            {
+                MessageBox.Show("Выберите тип отчета!");
+                return;
+            }
             if(isEmployee)
             {
                 ReportInfoArrivalDeparture report = new ReportInfoArrivalDeparture(true);

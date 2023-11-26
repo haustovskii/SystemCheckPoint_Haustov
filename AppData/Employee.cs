@@ -14,6 +14,12 @@ namespace SystemCheckPoint.AppData
     
     public partial class Employee
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Employee()
+        {
+            this.InfoArrivalDeparture = new HashSet<InfoArrivalDeparture>();
+        }
+    
         public int ID { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
@@ -29,5 +35,7 @@ namespace SystemCheckPoint.AppData
     
         public virtual Pass Pass { get; set; }
         public virtual Post Post { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InfoArrivalDeparture> InfoArrivalDeparture { get; set; }
     }
 }
