@@ -17,15 +17,30 @@ namespace SystemCheckPoint.Page
     /// </summary>
     public partial class PageMenuPassAdmin : System.Windows.Controls.Page
     {
+        /// <summary>
+        /// Идентификатор текущего сотрудника/стороннего лица.
+        /// </summary>
         public int IDEmployee = 0;
+
+        /// <summary>
+        /// Конструктор страницы меню для администратора пропускной системы.
+        /// Инициализирует компоненты и устанавливает источники данных для элементов управления.
+        /// </summary>
         public PageMenuPassAdmin()
         {
             InitializeComponent();
+
+            // Установка источника данных для таблицы и списка сотрудников/сторонних лиц
             DgrData.ItemsSource = AppConnect.modelOdb.Employee.ToArray();
             LsvEmployee.ItemsSource = AppConnect.modelOdb.Employee.ToArray();
+
+            // Установка источника данных для выпадающего списка должностей
             CmbPost.ItemsSource = AppConnect.modelOdb.Post.Select(x => x.Name).ToArray();
         }
-        //Переключение на режим добавления/редактирования
+
+        /// <summary>
+        /// Переключение на режим добавления/редактирования данных о сотруднике/стороннем лице.
+        /// </summary>
         private void BtnAddPass_Click(object sender, RoutedEventArgs e)
         {
             GrdSort.Visibility = Visibility.Collapsed;
@@ -33,7 +48,10 @@ namespace SystemCheckPoint.Page
             StpAddEditPass.Visibility = Visibility.Visible;
             BtnBack.Visibility = Visibility.Visible;
         }
-        //Сохранение и редактирование данных о сотруднике/стороннем лице
+
+        /// <summary>
+        /// Сохранение и редактирование данных о сотруднике/стороннем лице.
+        /// </summary>
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrEmpty(TbxLastName.Text) && !string.IsNullOrEmpty(TbxName.Text) &&
@@ -103,6 +121,11 @@ namespace SystemCheckPoint.Page
             else
                 MessageBox.Show("Данные не были введены", "Ошибка при добавлении данных", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+        /// <summary>
+        /// Получает массив байтов изображения из элемента управления Image.
+        /// </summary>
+        /// <param name="imageControl">Элемент управления Image.</param>
+        /// <returns>Массив байтов изображения или null, если изображение отсутствует.</returns>
         private byte[] GetImageDataFromImageControl(Image imageControl)
         {
             if (imageControl.Source is BitmapSource bitmapSource)
@@ -118,25 +141,33 @@ namespace SystemCheckPoint.Page
 
             return null;
         }
-        //Открытие автоматической проверки
+        /// <summary>
+        /// Обработчик события клика на кнопке выбора сотрудника.
+        /// </summary>
         private void BtnSelectEmployee_Click(object sender, RoutedEventArgs e)
         {
             if (BrdSelectEmployee.Visibility == Visibility.Collapsed)
-                //добавить проверку на клик вне области
                 BrdSelectEmployee.Visibility = Visibility.Visible;
             else
                 BrdSelectEmployee.Visibility = Visibility.Collapsed;
         }
-        //Поиск в автоматическом заполнении
+
+        /// <summary>
+        /// Обработчик события изменения текста в поле автоматического заполнения сотрудника.
+        /// </summary>
         private void TbxSelectEmployee_TextChanged(object sender, TextChangedEventArgs e)
         {
             LsvEmployee.ItemsSource = AppConnect.modelOdb.Employee.Where(x =>
-            x.LastName.Contains(TbxSelectEmployee.Text) ||
-            x.FirstName.Contains(TbxSelectEmployee.Text) ||
-            x.Patronumic.Contains(TbxSelectEmployee.Text)
-                ).ToArray();
+                x.LastName.Contains(TbxSelectEmployee.Text) ||
+                x.FirstName.Contains(TbxSelectEmployee.Text) ||
+                x.Patronumic.Contains(TbxSelectEmployee.Text)
+            ).ToArray();
         }
-        //Автоматическое заполнение данных для редактирования
+
+        /// <summary>
+        /// Обработчик события изменения выбора в списке сотрудников.
+        /// Заполняет поля данными выбранного сотрудника для редактирования.
+        /// </summary>
         private void LsvEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (LsvEmployee.SelectedItem != null)
@@ -158,13 +189,14 @@ namespace SystemCheckPoint.Page
                         ImgEmpl.Source = LoadImage(EmployeeDb.ImagePath);
                 }
                 BrdSelectEmployee.Visibility = Visibility.Collapsed;
-
             }
         }
-        //Возврат к таблице
+        /// <summary>
+        /// Обработчик события клика на кнопке возврата к таблице.
+        /// </summary>
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
-            if (StpAddEditPass.Visibility == Visibility)
+            if (StpAddEditPass.Visibility == Visibility.Visible)
             {
                 GrdSort.Visibility = Visibility.Visible;
                 StpDataGrid.Visibility = Visibility.Visible;
@@ -172,7 +204,9 @@ namespace SystemCheckPoint.Page
                 BtnBack.Visibility = Visibility.Collapsed;
             }
         }
-        //Удаление пропуска
+        /// <summary>
+        /// Обработчик события клика на кнопке удаления пропуска.
+        /// </summary>
         private void BtnDeletePass_Click(object sender, RoutedEventArgs e)
         {
             if (DgrData.SelectedItem != null)
@@ -188,6 +222,9 @@ namespace SystemCheckPoint.Page
                 }
             }
         }
+        /// <summary>
+        /// Обновляет отображаемые данные с учетом фильтрации, сортировки и поиска.
+        /// </summary>
         private void UpdateData()
         {
             var query = AppConnect.modelOdb.Employee.AsQueryable();
@@ -239,25 +276,42 @@ namespace SystemCheckPoint.Page
 
             DgrData.ItemsSource = query.ToList();
         }
-
+        /// <summary>
+        /// Обработчик изменения выбранного значения в выпадающем списке фильтра.
+        /// Вызывает метод UpdateData для обновления отображаемых данных.
+        /// </summary>
         private void CmbFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UpdateData();
         }
-
+        /// <summary>
+        /// Обработчик изменения текста в поле поиска.
+        /// Вызывает метод UpdateData для обновления отображаемых данных.
+        /// </summary>
         private void TbxFind_TextChanged(object sender, TextChangedEventArgs e)
         {
             UpdateData();
         }
-
+        /// <summary>
+        /// Обработчик изменения выбранного значения в выпадающем списке сортировки.
+        /// Вызывает метод UpdateData для обновления отображаемых данных.
+        /// </summary>
         private void CmbSort_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UpdateData();
-        } 
+        }
+        /// <summary>
+        /// Обработчик события загрузки строки в DataGrid.
+        /// Устанавливает номер строки в заголовке.
+        /// </summary>
         private void DgrData_LoadingRow(object sender, DataGridRowEventArgs e)
         {
             e.Row.Header = (e.Row.GetIndex() + 1).ToString();
         }
+        /// <summary>
+        /// Обработчик события клика на кнопке добавления изображения.
+        /// Позволяет выбрать изображение и отображает его в элементе управления Image.
+        /// </summary>
         private void BtnAddImage_Click(object sender, RoutedEventArgs e)
         {
             byte[] selectedImageData;
@@ -276,11 +330,15 @@ namespace SystemCheckPoint.Page
                         selectedImageData = br.ReadBytes((int)fs.Length);
                     }
                 }
-
                 // Отображение изображения в ImgEmpl
                 ImgEmpl.Source = LoadImage(selectedImageData);
             }
         }
+        /// <summary>
+        /// Загружает изображение из массива байтов и возвращает объект BitmapImage.
+        /// </summary>
+        /// <param name="imageData">Массив байтов изображения.</param>
+        /// <returns>Объект BitmapImage с загруженным изображением.</returns>
         private BitmapImage LoadImage(byte[] imageData)
         {
             BitmapImage image = new BitmapImage();
@@ -293,7 +351,9 @@ namespace SystemCheckPoint.Page
             }
             return image;
         }
-
+        /// <summary>
+        /// Обработчик события клика на кнопке перехода к другим пропускам.
+        /// </summary>
         private void BtnOtherPass_Click(object sender, RoutedEventArgs e)
         {
             AppFrame.FrameMain.Navigate(new PageOtherPass());

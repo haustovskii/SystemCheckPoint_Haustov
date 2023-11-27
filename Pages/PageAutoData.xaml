@@ -8,16 +8,9 @@
     Title="Меню Редактирование пропусков"
     FontSize="18"
     mc:Ignorable="d">
-    <Page.Resources>
-        <Style TargetType="ListViewItem">
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#EAF4E4" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Page.Resources>
+    <!--  Интерфейс редактирования пропусков для автотранспорта  -->
     <Grid Background="White">
+        <!--  Поиск и галочка для добавления новых данных  -->
         <StackPanel
             Margin="130,10"
             HorizontalAlignment="Right"
@@ -60,12 +53,12 @@
                     Source="/Images/find.png" />
             </Grid>
         </StackPanel>
+        <!--  Лист для вывода данных из БД и окно для ввода данных  -->
         <StackPanel
             Name="StpAddEditPass"
             Grid.Row="1"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Visibility="Visible">
+            VerticalAlignment="Center">
             <Grid Background="White">
                 <StackPanel Orientation="Horizontal">
                     <Border
@@ -221,36 +214,31 @@
                                                         Margin="5,13"
                                                         HorizontalAlignment="Right"
                                                         Text="Цвет: " />
-
                                                 </StackPanel>
                                                 <StackPanel Orientation="Vertical">
                                                     <TextBox
                                                         Name="TbxIDPassAuto"
                                                         Width="250"
-                                                        PreviewTextInput="Number_PreviewTextInput"
-                                                        TextChanged="AreFieldsChanged_TextChanged" />
+                                                        IsReadOnly="True"
+                                                        PreviewTextInput="Number_PreviewTextInput" />
                                                     <TextBox
                                                         Name="TbxMark"
                                                         Width="250"
-                                                        PreviewTextInput="Text_PreviewTextInput"
-                                                        TextChanged="AreFieldsChanged_TextChanged" />
+                                                        PreviewTextInput="Text_PreviewTextInput" />
                                                     <TextBox
                                                         Name="TbxStateNumber"
                                                         Width="250"
                                                         MaxLength="6"
-                                                        PreviewTextInput="TbxStateNumber_PreviewTextInput"
-                                                        TextChanged="AreFieldsChanged_TextChanged" />
+                                                        PreviewTextInput="StateNumber_PreviewTextInput" />
                                                     <TextBox
                                                         Name="TbxSeriesNumber"
                                                         Width="250"
                                                         MaxLength="17"
-                                                        PreviewTextInput="TbxSeriesNumber_PreviewTextInput"
-                                                        TextChanged="AreFieldsChanged_TextChanged" />
+                                                        PreviewTextInput="TbxSeriesNumber_PreviewTextInput" />
                                                     <TextBox
                                                         Name="TbxColor"
                                                         Width="250"
-                                                        PreviewTextInput="Text_PreviewTextInput"
-                                                        TextChanged="AreFieldsChanged_TextChanged" />
+                                                        PreviewTextInput="Text_PreviewTextInput" />
                                                 </StackPanel>
                                             </StackPanel>
                                         </StackPanel>
@@ -258,18 +246,28 @@
                                 </GroupBox>
                             </StackPanel>
                         </StackPanel>
-                        <Button
-                            Name="BtnSave"
-                            Width="150"
-                            Height="32"
-                            Margin="10"
-                            HorizontalAlignment="Center"
-                            Background="#EAF4E4"
-                            BorderBrush="#A9D18E"
-                            BorderThickness="1"
-                            Click="BtnSave_Click"
-                            Content="Сохранить"
-                            IsEnabled="False" />
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                Name="BtnSave"
+                                Width="150"
+                                Height="32"
+                                Margin="10"
+                                Background="#EAF4E4"
+                                BorderBrush="#A9D18E"
+                                BorderThickness="1"
+                                Click="BtnSave_Click"
+                                Content="Сохранить" />
+                            <Button
+                                Name="BtnDelete"
+                                Width="150"
+                                Height="32"
+                                Margin="10"
+                                Background="#EAF4E4"
+                                BorderBrush="#A9D18E"
+                                BorderThickness="1"
+                                Click="BtnDelete_Click"
+                                Content="Удалить" />
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </Grid>

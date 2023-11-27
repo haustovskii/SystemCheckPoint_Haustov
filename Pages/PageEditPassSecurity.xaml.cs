@@ -16,29 +16,59 @@ namespace SystemCheckPoint.Page
     /// </summary>
     public partial class PageEditPass : System.Windows.Controls.Page
     {
-        int IDExteral;
+        /// <summary>
+        /// Идентификатор стороннего лица.
+        /// </summary>
+        private int IDExteral;
+
+        /// <summary>
+        /// Флаг, указывающий, был ли выполнен клик.
+        /// </summary>
         private bool isClicked = false;
+
+        /// <summary>
+        /// Конструктор страницы редактирования пропуска.
+        /// </summary>
         public PageEditPass()
         {
             AppConnect.modelOdb = new CheckPointDbEntities1();
             InitializeComponent();
             LsvExternalPerson.ItemsSource = AppConnect.modelOdb.ExternalPerson.ToArray();
         }
-        //Проспуск для стороннего лица
+
+        /// <summary>
+        /// Обработчик события предварительного ввода текста в поле с фамилией, именем, отчеством.
+        /// Запрещает ввод цифр и символов, отличных от букв.
+        /// </summary>
         private void Text_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^а-яА-Яa-zA-Z]+");
             e.Handled = regex.IsMatch(e.Text);
         }
+
+        /// <summary>
+        /// Обработчик события предварительного ввода текста в поле с числом.
+        /// Запрещает ввод символов, отличных от цифр.
+        /// </summary>
         private void Number_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
+
+        /// <summary>
+        /// Обработчик события нажатия кнопки "Выход".
+        /// Закрывает текущую страницу.
+        /// </summary>
         private void BtnExit_Click(object sender, RoutedEventArgs e)
         {
             AppFrame.FrameMain.Content = null;
         }
+
+        /// <summary>
+        /// Обработчик события нажатия на круглый элемент, изменяющий позицию.
+        /// Переключает видимость элементов на странице в зависимости от флага isClicked.
+        /// </summary>
         private void ElpPozition_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (!isClicked)
@@ -57,6 +87,11 @@ namespace SystemCheckPoint.Page
             }
             isClicked = !isClicked;
         }
+
+        /// <summary>
+        /// Обработчик события нажатия кнопки "Выбрать персону".
+        /// Переключает видимость блока выбора персоны.
+        /// </summary>
         private void BtnSelectPerson_Click(object sender, RoutedEventArgs e)
         {
             if (BrdSelectPerson.Visibility == Visibility.Collapsed)
@@ -64,6 +99,12 @@ namespace SystemCheckPoint.Page
             else
                 BrdSelectPerson.Visibility = Visibility.Collapsed;
         }
+
+        /// <summary>
+        /// Проверяет, были ли изменены поля стороннего лица с указанным идентификатором.
+        /// </summary>
+        /// <param name="id">Идентификатор стороннего лица.</param>
+        /// <returns>True, если поля были изменены; в противном случае - false.</returns>
         private bool AreFieldsChanged(int id)
         {
             var externalDb = AppConnect.modelOdb.ExternalPerson.FirstOrDefault(x => x.ID == id);
@@ -78,6 +119,11 @@ namespace SystemCheckPoint.Page
             }
             return false;
         }
+
+        /// <summary>
+        /// Обработчик события изменения выбранной персоны в списке сторонних лиц.
+        /// Заполняет соответствующие поля данными о выбранной персоне.
+        /// </summary>
         private void LsvExternalPerson_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (LsvExternalPerson.SelectedItem != null)
@@ -85,6 +131,7 @@ namespace SystemCheckPoint.Page
                 ExternalPerson external = (ExternalPerson)LsvExternalPerson.SelectedItem;
                 IDExteral = external.ID;
                 var ExternalDb = AppConnect.modelOdb.ExternalPerson.FirstOrDefault(x => x.ID == IDExteral);
+
                 if (ExternalDb != null)
                 {
                     TbxIDPass.Text = ExternalDb.IDPass.ToString();
@@ -98,32 +145,49 @@ namespace SystemCheckPoint.Page
             }
             BrdSelectPerson.Visibility = Visibility.Collapsed;
         }
+
+        /// <summary>
+        /// Обработчик события изменения текста в поле выбора персоны.
+        /// Обновляет список сторонних лиц в соответствии с введенным текстом.
+        /// </summary>
         private void TbxSelectPerson_TextChanged(object sender, TextChangedEventArgs e)
         {
             LsvExternalPerson.ItemsSource = AppConnect.modelOdb.ExternalPerson.Where(x =>
-            x.ID.ToString().Contains(TbxSelectPerson.Text) ||
-            x.LastName.Contains(TbxSelectPerson.Text) ||
-            x.FirstName.Contains(TbxSelectPerson.Text) ||
-            x.Patronumic.Contains(TbxSelectPerson.Text)).ToArray();
+                x.ID.ToString().Contains(TbxSelectPerson.Text) ||
+                x.LastName.Contains(TbxSelectPerson.Text) ||
+                x.FirstName.Contains(TbxSelectPerson.Text) ||
+                x.Patronumic.Contains(TbxSelectPerson.Text)).ToArray();
         }
+
+        /// <summary>
+        /// Обработчик события нажатия кнопки "Сохранить пропуск".
+        /// Сохраняет данные о стороннем лице и формирует пропуск.
+        /// </summary>
         private void BtnSavePass_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 int IDPass = 0;
                 int IDExtPerson = 0;
+
+                // Проверяем, были ли изменены поля стороннего лица
                 if (AreFieldsChanged(IDExteral) == false)
                     goto linkPrint;
+
+                // Проверяем, все ли обязательные поля заполнены
                 if (!string.IsNullOrWhiteSpace(TbxLastName.Text) && !string.IsNullOrWhiteSpace(TbxName.Text) &&
                     !string.IsNullOrWhiteSpace(TbxPatronymic.Text) && !string.IsNullOrWhiteSpace(TbxNumberPass.Text) &&
                     !string.IsNullOrWhiteSpace(TbxSerriesPass.Text) && DtpBirthday.SelectedDate != null)
                 {
+                    // Проверяем валидность введенных ФИО
                     if (!CheckPointLibrary.MainClass.ValidateFIO(TbxLastName.Text, TbxName.Text, TbxPatronymic.Text))
                     {
                         MessageBox.Show("Введите корректные данные для ФИО", "Ошибка при добавлении данных", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
-                        Pass pass = new Pass
+
+                    // Создаем пропуск
+                    Pass pass = new Pass
                     {
                         IDTypePass = 1,
                         DateOfFormation = DateTime.Now
@@ -131,6 +195,8 @@ namespace SystemCheckPoint.Page
                     AppConnect.modelOdb.Pass.Add(pass);
                     AppConnect.modelOdb.SaveChanges();
                     IDPass = AppConnect.modelOdb.Pass.Max(x => x.ID);
+
+                    // Создаем стороннее лицо
                     IDExtPerson = AppConnect.modelOdb.ExternalPerson.Max(x => x.ID) + 1;
                     ExternalPerson externalPerson = new ExternalPerson
                     {
@@ -145,13 +211,20 @@ namespace SystemCheckPoint.Page
                     };
                     AppConnect.modelOdb.ExternalPerson.Add(externalPerson);
                     AppConnect.modelOdb.SaveChanges();
+
                     MessageBox.Show("Данные успешно сохранены!", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
+                {
                     MessageBox.Show("Данные не были введены", "Ошибка при добавлении данных", MessageBoxButton.OK, MessageBoxImage.Error);
-                linkPrint:
+                }
+
+            linkPrint:
+                // Формируем и отображаем отчет
                 ReportPassExternalPerson reportPassExternalPerson = new ReportPassExternalPerson(IDExtPerson, IDPass, DateTime.Now.ToString());
                 reportPassExternalPerson.Show();
+
+                // Очищаем поля и устанавливаем таймер для очистки через 3 секунды
                 DispatcherTimer timer = new DispatcherTimer();
                 timer.Tick += (s, _e) =>
                 {
@@ -171,9 +244,12 @@ namespace SystemCheckPoint.Page
             {
                 MessageBox.Show("Произошла критическая ошибка приложения" + ex.ToString(), "Критическая ошибка приложения", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
-        //Пропуск на материальную ценность
+
+        /// <summary>
+        /// Обработчик события нажатия кнопки "Сохранить материальный пропуск".
+        /// Сохраняет данные о материальной ценности и формирует пропуск на материальную ценность.
+        /// </summary>
         private void BtnSaveMaterial_Click(object sender, RoutedEventArgs e)
         {
             //try
@@ -212,11 +288,23 @@ namespace SystemCheckPoint.Page
             //    MessageBox.Show("Произошла критическая ошибка приложения" + ex.ToString(), "Критическая ошибка приложения", MessageBoxButton.OK, MessageBoxImage.Error);
             //}
         }
+        /// <summary>
+        /// Добавляет информацию об автотранспорте в базу данных, если он отсутствует.
+        /// Затем создает материальный пропуск и сохраняет его в базе данных.
+        /// </summary>
+        /// <param name="StateNumber">Государственный номер автотранспорта.</param>
+        /// <param name="NameMaterial">Наименование материальной ценности.</param>
+        /// <param name="Count">Количество материальной ценности.</param>
+        /// <param name="Weight">Вес материальной ценности.</param>
+        /// <param name="NumberDoc">Номер документа.</param>
         public void AddAuto(string StateNumber, string NameMaterial, string Count, string Weight, string NumberDoc)
         {
             var AutoDb = AppConnect.modelOdb.AutoTransport.FirstOrDefault(x => x.StateNumber == StateNumber);
             if (AutoDb == null)
+            {
                 MessageBox.Show("Автотранспорт с таким гос. номером не найден");
+                return;
+            }
             AccountingMaterialValue materialValue = new AccountingMaterialValue
             {
                 Name = NameMaterial,
@@ -234,7 +322,10 @@ namespace SystemCheckPoint.Page
             AppConnect.modelOdb.Pass.Add(pass);
             AppConnect.modelOdb.SaveChanges();
         }
-
+        /// <summary>
+        /// Обработчик события ввода текста в поле гос. номера автотранспорта.
+        /// Проверяет ввод на допустимые символы.
+        /// </summary>
         private void TbxStateNumber_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^А-Я0-9]+");

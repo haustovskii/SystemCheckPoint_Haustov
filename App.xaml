@@ -32,6 +32,27 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="ListViewItem">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#EAF4E4" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="StyleBrd" TargetType="Border">
+            <Setter Property="BorderBrush" Value="#A9D18E" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+        <Style x:Key="StyleBtnDefault" TargetType="Button">
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Margin" Value="20" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="BorderBrush" Value="#A9D18E" />
+            <Setter Property="Background" Value="#EAF4E4" />
+            <Setter Property="Content" Value="Назад" />
+        </Style>
         <Style TargetType="Button">
             <Setter Property="Height" Value="32" />
             <Setter Property="BorderBrush" Value="#A9D18E" />

@@ -19,12 +19,14 @@
     mc:Ignorable="d">
     <Window.Resources />
     <Viewbox>
+        <!--  Интерфейс окна авторизации пользователя  -->
         <Grid Width="{Binding ElementName=Wnd, Path=MinWidth}" Background="WhiteSmoke">
             <Grid.RowDefinitions>
-                <RowDefinition Height="100" MouseDown="Grid_MouseDown" />
+                <RowDefinition Height="100" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" MouseDown="Grid_MouseDown">
+            <!--  Шапка окна  -->
+            <Grid>
                 <TextBlock Background="Transparent" MouseDown="Grid_MouseDown" />
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <Image Margin="10" Source="/Images/logo_new.png" />
@@ -36,6 +38,7 @@
                             Text="Авторизация" />
                     </StackPanel>
                 </StackPanel>
+                <!--  Кнопки окна  -->
                 <StackPanel
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"
@@ -71,6 +74,7 @@
                     </Border>
                 </StackPanel>
             </Grid>
+            <!--  Поля для ввода данных и кнопка для проверки  -->
             <Grid Grid.Row="1">
                 <StackPanel Name="StnLogin">
                     <StackPanel Orientation="Horizontal">
@@ -102,7 +106,6 @@
                         Name="BtnEnter"
                         Width="100"
                         Margin="25"
-                        HorizontalAlignment="Center"
                         Background="White"
                         Click="BtnEnter_Click"
                         Content="Войти" />

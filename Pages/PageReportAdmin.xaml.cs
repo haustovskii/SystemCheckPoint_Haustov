@@ -1,10 +1,5 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using SystemCheckPoint.AppData;
-using System.Linq;
-using System.Data.Entity;
-using OfficeOpenXml; // Импорт пространства имен из библиотеки EPPlus
-using OfficeOpenXml.Style;
 using SystemCheckPoint.Report;
 
 namespace SystemCheckPoint.Page
@@ -14,14 +9,29 @@ namespace SystemCheckPoint.Page
     /// </summary>
     public partial class PageReportAdmin : System.Windows.Controls.Page
     {
+        /// <summary>
+        /// Конструктор класса PageReportAdmin.
+        /// Инициализирует компоненты страницы.
+        /// </summary>
         public PageReportAdmin()
         {
             InitializeComponent();
-        }        
-        private void BtnBack_Click(object sender, RoutedEventArgs e)=> AppFrame.FrameMain.Content = null;
+        }
+
+        /// <summary>
+        /// Обработчик события клика на кнопке возврата.
+        /// Очищает содержимое главного фрейма.
+        /// </summary>
+        private void BtnBack_Click(object sender, RoutedEventArgs e) => AppFrame.FrameMain.Content = null;
+
         private bool SelectEmployee = false;
         private bool SelectPerson = false;
         private bool isEmployee = false;
+
+        /// <summary>
+        /// Обработчик события клика по элементу управления ElpPozition1 (круг 1).
+        /// Переключает состояние выбора сотрудника и обновляет видимость.
+        /// </summary>
         private void ElpPozition1_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             SelectEmployee = !SelectEmployee;
@@ -30,6 +40,10 @@ namespace SystemCheckPoint.Page
             UpdateVisibility();
         }
 
+        /// <summary>
+        /// Обработчик события клика по элементу управления ElpPozition2 (круг 2).
+        /// Переключает состояние выбора внешнего сотрудника и обновляет видимость.
+        /// </summary>
         private void ElpPozition2_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             SelectPerson = !SelectPerson;
@@ -38,14 +52,19 @@ namespace SystemCheckPoint.Page
             UpdateVisibility();
         }
 
+        /// <summary>
+        /// Обновляет видимость элементов управления в зависимости от выбранного типа отчета.
+        /// </summary>
         private void UpdateVisibility()
         {
             ElpPozition1.Visibility = SelectEmployee ? Visibility.Visible : Visibility.Collapsed;
             ElpPozition2.Visibility = SelectPerson ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        // Теперь переменная isEmployee будет содержать состояние выбора ElpPozition1
-
+        /// <summary>
+        /// Обработчик события клика на кнопке создания отчета.
+        /// Проверяет выбранный тип отчета и открывает соответствующий отчет.
+        /// </summary>
         private void BtnCreateReport_Click(object sender, RoutedEventArgs e)
         {
             if (SelectEmployee == SelectPerson)
@@ -53,7 +72,7 @@ namespace SystemCheckPoint.Page
                 MessageBox.Show("Выберите тип отчета!");
                 return;
             }
-            if(isEmployee)
+            if (isEmployee)
             {
                 ReportInfoArrivalDeparture report = new ReportInfoArrivalDeparture(true);
                 report.Show();
@@ -64,7 +83,6 @@ namespace SystemCheckPoint.Page
                 report.Show();
             }
         }
-
 
     }
 }

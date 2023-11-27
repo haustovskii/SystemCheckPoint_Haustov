@@ -261,7 +261,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Scripts\jquery-2.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -296,10 +295,6 @@
       <DependentUpon>CheckPointDb.edmx</DependentUpon>
       <LastGenOutput>CheckPointDb.cs</LastGenOutput>
     </Content>
-    <Content Include="Scripts\jquery-2.1.1.intellisense.js" />
-    <Content Include="Scripts\jquery-2.1.1.js" />
-    <Content Include="Scripts\jquery-2.1.1.min.js" />
-    <Content Include="Scripts\nugetexample.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CheckPointLibrary\CheckPointLibrary.csproj">

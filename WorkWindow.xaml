@@ -19,12 +19,14 @@
     WindowStyle="None"
     mc:Ignorable="d">
     <Viewbox>
+        <!--  Интерфейс рабочего окна пользователя  -->
         <Grid Width="{Binding ElementName=Wnd, Path=MinWidth}" Background="#F2F2F2">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="115" MouseDown="Grid_MouseDown" />
+                    <RowDefinition Height="115" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
+                <!--  Шапка окна  -->
                 <Grid MouseDown="Grid_MouseDown">
                     <TextBlock Background="Transparent" MouseDown="Grid_MouseDown" />
                     <StackPanel Margin="5" Orientation="Horizontal">
@@ -41,6 +43,7 @@
                                 Text="{Binding ElementName=FrameMain, Path=Content.Title}" />
                         </StackPanel>
                     </StackPanel>
+                    <!--  Кнопки окна  -->
                     <StackPanel
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
@@ -76,6 +79,7 @@
                         </Border>
                     </StackPanel>
                 </Grid>
+                <!--  Кнопки меню для переключения между страниц  -->
                 <StackPanel
                     Grid.Row="1"
                     Margin="600,-3,0,0"
@@ -112,6 +116,7 @@
                             TextAlignment="Center" />
                     </Border>
                 </StackPanel>
+                <!--  Объект для отображения страниц  -->
                 <Frame
                     Name="FrameMain"
                     Grid.Row="1"
